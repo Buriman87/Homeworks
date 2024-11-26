@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="module" src="./register.js" defer></script>
+    <link rel="stylesheet" href="./register.css" />
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="./Homepage.html" class="logo">My Homework 18NOV2024</a>
+      <div class="hamburger" onclick="toggleMenu()">
+          <div></div>
+          <div></div>
+          <div></div>
+      </div>
+      <div class="nav-links">
+          <a href="./login.html">Log In</a>
+          <a href="./register.html">register</a>
+      </div>
+  </div>
+    <div>
+      <form>
+        <div>
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            required
+            placeholder="Username"
+            name="username"
+          />
+        </div>
+        <div>
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            required
+            placeholder="Email"
+            name="email"
+          />
+        </div>
+        <div>
+          <label for="firstname">First Name:</label>
+          <input
+            type="text"
+            id="firstname"
+            required
+            placeholder="First Name"
+            name="firstname"
+          />
+        </div>
+        <div>
+          <label for="lastname">Last Name:</label>
+          <input
+            type="text"
+            id="lastname"
+            required
+            placeholder="Last Name"
+            name="lastname"
+          />
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            required
+            placeholder="Password"
+            name="password"
+          />
+        </div>
+        <div>
+          <label for="age">Age:</label>
+          <input type="text" id="age" required placeholder="Age" name="age" />
+        </div>
+        <div><button type="submit" id="registerBtn">Submit</button></div>
+        <div><p id="error"></p></div>
+        <div class="users"></div>
+      </form>
+    </div>
+  </body>
+</html>

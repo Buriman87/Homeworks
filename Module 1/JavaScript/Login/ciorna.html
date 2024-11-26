@@ -1,0 +1,44 @@
+<body>
+    <div class="navbar">
+      <a href="#" class="logo">My Homework 18NOV2024</a>
+      <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="nav-links">
+        <a href="./login.html" id="loginLink">Log In</a>
+        <a href="./register.html" id="registerLink">Register</a>
+      </div>
+    </div>
+    <div>
+      <p class="currentUser" id="currentUser">TEXT</p>
+    </div>
+  
+    <script>
+      // Simulating a logged-in user (you can replace this logic with your actual login check)
+      const userLoggedIn = true; // Replace with your logic
+      const username = "JohnDoe"; // Replace with the logged-in user's username
+  
+      // DOM elements
+      const navLinks = document.querySelector(".nav-links");
+      const loginLink = document.getElementById("loginLink");
+      const registerLink = document.getElementById("registerLink");
+  
+      if (userLoggedIn) {
+        // Remove login and register links
+        loginLink.style.display = "none";
+        registerLink.style.display = "none";
+  
+        // Add the username as a link
+        const profileLink = document.createElement("a");
+        profileLink.href = "./myprofile.html"; // Link to the profile page
+        profileLink.textContent = username; // Display the username
+        profileLink.id = "profileLink";
+  
+        // Append the profile link to the nav-links div
+        navLinks.appendChild(profileLink);
+      }
+    </script>
+  </body>
+  

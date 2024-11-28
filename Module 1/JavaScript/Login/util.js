@@ -13,12 +13,44 @@ const removeFromLS = (key) => {
   }
   return false;
 };
-
+//tre facute si fnct pt validari login
 function isValidUsername(username) {
   if (username.length >= 4) {
-    return true; 
+    return true;
   } else {
-    alert('Something went wrong')
+    alert("Something went wrong");
   }
 }
-export { writeToLS, readFromLS, removeFromLS };
+
+function isValidPassword(password) {
+  //minim 6 caractere
+  //minimc 1 liter capital
+  //minim 1 litera mica
+  //minim 1 cifra
+  //minim un caracter special
+  const passwordParam =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+  return passwordParam.test(password);
+}
+
+function isValidName(name) {
+  if (name.length > 2) {
+    return true;
+  } else {
+    alert("Invalid name format");
+  }
+}
+
+function isValidEmail(email) {
+  emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+}
+export {
+  writeToLS,
+  readFromLS,
+  removeFromLS,
+  isValidPassword,
+  isValidEmail,
+  isValidName,
+  isValidUsername,
+};

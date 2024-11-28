@@ -1,4 +1,12 @@
-import { readFromLS, removeFromLS, writeToLS } from "./util.js";
+import {
+  readFromLS,
+  removeFromLS,
+  writeToLS,
+  isValidPassword,
+  isValidEmail,
+  isValidName,
+  isValidUsername
+} from "./util.js";
 
 // const x = 3;
 // console.log(x);
@@ -25,11 +33,11 @@ const error = document.querySelector("#error");
 const usersToShow = document.querySelector(".users");
 
 const users = readFromLS("users") || [];
-const loggedUsers = readFromLS("loggedUser") || false;
+const loggedUsers = readFromLS("loggedUser") || {};
 
-// if (loggedUsers) {
-//   window.location.assign("./Homepage.html");
-// }
+if (Object.keys(loggedUsers).length > 0) {
+  window.location.assign("./Homepage.html");
+}
 
 console.log(loggedUsers);
 users.forEach((user) => {
@@ -42,17 +50,50 @@ users.forEach((user) => {
 // + un obiect care retine utilizatorul curent logat
 // TREBUIE SA VALIDAM LUCRURI
 
-//username minim 4 caractere
-//validare email
-//fisrtname, lastname minim 2 caractere
-//password minim 6 caractere, minim o litera mare, minim o litera mica, minim 1 cifra, minim un caracter special
 //username si email sunt unice! Nu pot avea 2 utilizatori cu acelasi username si email
-//   const upperCaseRegex = /[A-Z]/;
-//  const lowerCaseRegex = /[a-z]/;
-//  const numberRegex = /[0-9]/;
-//  const specialCharRegex = /[!@#]/;
+
+// registerBtn.addEventListener("click", (event) => {
+//   event.preventDefault();
+//   const userInfo = {
+//     userNameInput: username.value,
+//     emailInput: email.value,
+//     firstNameInput: firstname.value,
+//     lastNameInput: lastname.value,
+//     passwordInput: btoa(password.value),
+//     ageInput: age.value,
+//   };
+//   console.log(">>userInfo: ", userInfo);
+//   console.log(atob(userInfo.passwordInput) === "gigi");
+
+//   if (
+//     userInfo.userNameInput.length === 0 ||
+//     userInfo.emailInput.length === 0 ||
+//     userInfo.firstNameInput.length === 0 ||
+//     userInfo.lastNameInput.length === 0 ||
+//     userInfo.passwordInput.length === 0 ||
+//     userInfo.ageInput.length === 0
+//   ) {
+//     error.classList.add("red");
+//     error.innerHTML = `<sup>*</sup> Complete each field of the form.`;
+//     return;
+//   }
+//   const re =
+//     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+//   if (!re.test(userInfo.emailInput)) {
+//     error.classList.add("red");
+//     error.innerHTML = `<sup>*</sup> Invalid Email`;
+//   }
+//   users.push(userInfo);
+//   writeToLS("users", users);
+//   writeToLS("loggedUser", userInfo);
+//   let el = document.createElement("p");
+//   el.innerText = userInfo.userNameInput;
+//   usersToShow.appendChild(el);
+// });
+
 registerBtn.addEventListener("click", (event) => {
   event.preventDefault();
+
   const userInfo = {
     userNameInput: username.value,
     emailInput: email.value,
@@ -61,29 +102,59 @@ registerBtn.addEventListener("click", (event) => {
     passwordInput: btoa(password.value),
     ageInput: age.value,
   };
+
   console.log(">>userInfo: ", userInfo);
   console.log(atob(userInfo.passwordInput) === "gigi");
-  if (
-    userInfo.userNameInput.length === 0 ||
-    userInfo.emailInput.length === 0 ||
-    userInfo.firstNameInput.length === 0 ||
-    userInfo.lastNameInput.length === 0 ||
-    userInfo.passwordInput.length === 0 ||
-    userInfo.ageInput.length === 0
-  ) {
+
+  // Verifica campurile goale
+  // if (
+  //   userInfo.userNameInput.length === 0 ||
+  //   userInfo.emailInput.length === 0 ||
+  //   userInfo.firstNameInput.length === 0 ||
+  //   userInfo.lastNameInput.length === 0 ||
+  //   userInfo.passwordInput.length === 0 ||
+  //   userInfo.ageInput.length === 0
+  // ) {
+  //   error.classList.add("red");
+  //   error.innerHTML = `<sup>*</sup> Complete each field of the form.`;
+  //   return;
+  // }
+
+  // validarile din util
+  if (!isValidUsername(userInfo.userNameInput)) {
     error.classList.add("red");
-    error.innerHTML = `<sup>*</sup> Complete each field of the form.`;
+    error.innerHTML = `<sup>*</sup> Username must be at least 4 characters long.`;
     return;
   }
-  const re =
+
+  if (
+    !isValidName(userInfo.firstNameInput) ||
+    !isValidName(userInfo.lastNameInput)
+  ) {
+    error.classList.add("red");
+    error.innerHTML = `<sup>*</sup> First / Last Names must be longer than 2 characters.`;
+    return;
+  }
+
+  const emailRegex =
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-  if (!re.test(userInfo.emailInput)) {
+  if (!emailRegex.test(userInfo.emailInput)) {
     error.classList.add("red");
     error.innerHTML = `<sup>*</sup> Invalid Email`;
+    return;
   }
+
+  if (!isValidPassword(atob(userInfo.passwordInput))) {
+    error.classList.add("red");
+    error.innerHTML = `<sup>*</sup> Password must be at least 6 characters long, contain 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character.`;
+    return;
+  }
+
+  // daca toate sunt ok=>scrie in local storage
   users.push(userInfo);
   writeToLS("users", users);
   writeToLS("loggedUser", userInfo);
+
   let el = document.createElement("p");
   el.innerText = userInfo.userNameInput;
   usersToShow.appendChild(el);

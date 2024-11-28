@@ -1,147 +1,145 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    /* background-color: blue; */
-  }
-  
-  body{
-      background-image: url('./background.jpg');
-  }
-  /* Navbar container */
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #261cedbb;
-    padding: 10px 20px;
-  }
-  
-  /* Logo */
-  .navbar .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-  }
-  
-  /* Navigation links */
-  .navbar .nav-links {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .navbar .nav-links a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    padding: 5px 10px;
-    transition: background 0.3s;
-    text-transform: uppercase;
-    font-size: larger;
-  }
-  
-  .navbar .nav-links a:hover {
-    background-color: #ed1c3fbb;
-    border-radius: 4px;
-  }
-  
-  /* Responsive menu for small screens */
-  .hamburger {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url("./background.jpg");
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #261cedbb;
+  padding: 10px 20px;
+}
+
+.navbar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar .nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  padding: 5px 10px;
+  transition: background 0.3s;
+  text-transform: uppercase;
+  font-size: larger;
+}
+
+.navbar .nav-links a:hover {
+  background-color: #ed1c3fbb;
+  border-radius: 4px;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
     display: none;
     flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-  }
-  
-  .hamburger div {
-    width: 25px;
-    height: 3px;
-    background-color: white;
-  }
-  
-  @media (max-width: 768px) {
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      background-color: #261cedbb;
-      padding: 10px;
-      border-radius: 8px;
-    }
-  
-    .nav-links.active {
-      display: flex;
-    }
-  
-    .hamburger {
-      display: flex;
-    }
-  }
-  
-/* Basic styling for the form container */
-form {
-    max-width: 600px; /* Optional: Set a maximum width */
-    margin: 20px auto; /* Center the form horizontally */
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Styling for each form group (label and input) */
-form div {
-    display: flex; /* Use flex to align label and input side by side */
-    flex-direction: column; /* Stack label and input vertically */
-    margin-bottom: 15px; /* Add space between fields */
-}
-
-/* Styling for labels */
-form label {
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 5px; /* Space between label and input */
-    color: #333;
-}
-
-/* Styling for input fields */
-form input {
+    gap: 10px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #261cedbb;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%; /* Make input fields take the full width of their container */
-    box-sizing: border-box; /* Ensure padding is included in the width */
+    border-radius: 8px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
 }
 
-/* Styling for the submit button */
+form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+form label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+form input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 form button {
-    padding: 10px 15px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%; /* Button takes the full width of the form */
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: grey;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
 }
 
-form button:hover {
+/* form button:hover {
     background-color: #45a049;
-}
+} */
 
-/* Optional: Styling for error message */
 #error {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
+  color: red;
+  font-size: 30px;
+  margin-top: 10px;
+  animation: flicker 0.5s infinite;
+}
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.1; 
+  }
 }
 
-/* Optional: Styling for the container of users */
 .users {
-    margin-top: 20px;
+  margin-top: 20px;
 }
-

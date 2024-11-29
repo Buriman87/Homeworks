@@ -1,5 +1,5 @@
 import { readFromLS } from "./util.js";
-console.log()
+console.log();
 
 const currentUserInfo = document.querySelector(".currentUser");
 
@@ -11,12 +11,23 @@ console.log(loggedUser);
 // }
 const { firstNameInput, emailInput } = loggedUser;
 
-currentUserInfo.innerHTML = `Hello ${firstNameInput} ${emailInput}`;
+function homePageCheckStatus() {
+  const loggedUser = readFromLS("loggedUser") || false;
+  const currentUserInfo = document.querySelector(".currentUser");
+  const { firstNameInput, emailInput } = loggedUser;
+  if (!loggedUser) {
+    currentUserInfo.innerHTML = `Hello! Please log in or register!`;
+  } else {
+    currentUserInfo.innerHTML = `Hello ${firstNameInput} ${emailInput}`;
+  }
+}
+homePageCheckStatus()
 
-document.querySelector(".hamburger").addEventListener('click', toggleMenu)
+
+document.querySelector(".hamburger").addEventListener("click", toggleMenu);
 function toggleMenu() {
-  const navLinks = document.querySelector('.nav-links');
-  navLinks.classList.toggle('active');
+  const navLinks = document.querySelector(".nav-links");
+  navLinks.classList.toggle("active");
   // navLinks.style.display="flex"
-  console.log("ceva")
+  console.log("ceva");
 }

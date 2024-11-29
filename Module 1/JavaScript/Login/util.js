@@ -46,6 +46,15 @@ function isValidEmail(email) {
   return emailRegex.test(email);
 }
 
+function checkUsername(username){
+  const userArray = readFromLS("users") || [];
+  return userArray.some((user)=>user.userNameInput==username);
+}
+
+function checkEmail(email){
+  const userArray = readFromLS("users") || [];
+return userArray.some((user)=>user.emailInput==email)
+}
 
 export {
   writeToLS,
@@ -55,4 +64,6 @@ export {
   isValidEmail,
   isValidName,
   isValidUsername,
+  checkUsername,
+  checkEmail
 };

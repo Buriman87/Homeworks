@@ -7,6 +7,13 @@
 
 body {
   background-image: url("./background.jpg");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background: #f0f0f0; /* Light background for visibility */
+  font-family: Arial, sans-serif;
 }
 
 .navbar {
@@ -17,8 +24,7 @@ body {
   padding: 10px 20px;
 }
 
-
-.navbar .logo {
+dsad .navbar .logo {
   font-size: 24px;
   font-weight: bold;
   color: white;
@@ -46,7 +52,6 @@ body {
   border-radius: 4px;
 }
 
-
 .hamburger {
   display: none;
   flex-direction: column;
@@ -60,11 +65,32 @@ body {
   background-color: white;
 }
 
-.currentUser{
-  font-size: 20px;
-  font-weight: bolder;
-  text-decoration: underline;
-  text-decoration-style: double;
+.currentUser {
+  background: #6200ea; /* Purple background */
+  color: #ffffff; /* White text */
+  padding: 20px 40px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: pulse 1.5s infinite; /* Pulsing animation */
+}
+
+/* Define the pulsing effect */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: scale(1.05); /* Slightly enlarge */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 }
 @media only screen and (max-width: 768px) {
   .nav-links {

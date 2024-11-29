@@ -5,9 +5,17 @@ import {
   isValidPassword,
   isValidEmail,
   isValidName,
-  isValidUsername
+  isValidUsername,
+  checkUsername,
+  checkEmail,
 } from "./util.js";
 
+const users = readFromLS("users") || [];
+const loggedUsers = readFromLS("loggedUser") || {};
+
+if (Object.keys(loggedUsers).length > 0) {
+  window.location.assign("./Homepage.html");
+}
 // const x = 3;
 // console.log(x);
 
@@ -32,62 +40,10 @@ const age = document.querySelector("#age");
 const error = document.querySelector("#error");
 const usersToShow = document.querySelector(".users");
 
-const users = readFromLS("users") || [];
-const loggedUsers = readFromLS("loggedUser") || {};
-
-if (Object.keys(loggedUsers).length > 0) {
-  window.location.assign("./Homepage.html");
-}
-
 console.log(loggedUsers);
-users.forEach((user) => {
-  let el = document.createElement("p");
-  el.innerText = user.userNameInput;
-  usersToShow.appendChild(el);
-});
-
-//Vrem sa stocam in local storage un array cu userii care se inregistraza
-// + un obiect care retine utilizatorul curent logat
-// TREBUIE SA VALIDAM LUCRURI
-
-//username si email sunt unice! Nu pot avea 2 utilizatori cu acelasi username si email
-
-// registerBtn.addEventListener("click", (event) => {
-//   event.preventDefault();
-//   const userInfo = {
-//     userNameInput: username.value,
-//     emailInput: email.value,
-//     firstNameInput: firstname.value,
-//     lastNameInput: lastname.value,
-//     passwordInput: btoa(password.value),
-//     ageInput: age.value,
-//   };
-//   console.log(">>userInfo: ", userInfo);
-//   console.log(atob(userInfo.passwordInput) === "gigi");
-
-//   if (
-//     userInfo.userNameInput.length === 0 ||
-//     userInfo.emailInput.length === 0 ||
-//     userInfo.firstNameInput.length === 0 ||
-//     userInfo.lastNameInput.length === 0 ||
-//     userInfo.passwordInput.length === 0 ||
-//     userInfo.ageInput.length === 0
-//   ) {
-//     error.classList.add("red");
-//     error.innerHTML = `<sup>*</sup> Complete each field of the form.`;
-//     return;
-//   }
-//   const re =
-//     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-//   if (!re.test(userInfo.emailInput)) {
-//     error.classList.add("red");
-//     error.innerHTML = `<sup>*</sup> Invalid Email`;
-//   }
-//   users.push(userInfo);
-//   writeToLS("users", users);
-//   writeToLS("loggedUser", userInfo);
+// users.forEach((user) => {
 //   let el = document.createElement("p");
-//   el.innerText = userInfo.userNameInput;
+//   el.innerText = user.userNameInput;
 //   usersToShow.appendChild(el);
 // });
 
@@ -106,20 +62,6 @@ registerBtn.addEventListener("click", (event) => {
   console.log(">>userInfo: ", userInfo);
   console.log(atob(userInfo.passwordInput) === "gigi");
 
-  // Verifica campurile goale
-  // if (
-  //   userInfo.userNameInput.length === 0 ||
-  //   userInfo.emailInput.length === 0 ||
-  //   userInfo.firstNameInput.length === 0 ||
-  //   userInfo.lastNameInput.length === 0 ||
-  //   userInfo.passwordInput.length === 0 ||
-  //   userInfo.ageInput.length === 0
-  // ) {
-  //   error.classList.add("red");
-  //   error.innerHTML = `<sup>*</sup> Complete each field of the form.`;
-  //   return;
-  // }
-
   // validarile din util
   if (!isValidUsername(userInfo.userNameInput)) {
     error.classList.add("red");
@@ -127,6 +69,11 @@ registerBtn.addEventListener("click", (event) => {
     return;
   }
 
+  if (checkUsername(userInfo.userNameInput)) {
+    error.classList.add("red");
+    error.innerHTML = `<sup>*</sup> Username already exists!`;
+    return;
+  }
   if (
     !isValidName(userInfo.firstNameInput) ||
     !isValidName(userInfo.lastNameInput)
@@ -143,7 +90,11 @@ registerBtn.addEventListener("click", (event) => {
     error.innerHTML = `<sup>*</sup> Invalid Email`;
     return;
   }
-
+  if (checkEmail(userInfo.emailInput)) {
+    error.classList.add("red");
+    error.innerHTML = `<sup>*</sup> Email already exists!`;
+    return;
+  }
   if (!isValidPassword(atob(userInfo.passwordInput))) {
     error.classList.add("red");
     error.innerHTML = `<sup>*</sup> Password must be at least 6 characters long, contain 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character.`;
@@ -154,8 +105,9 @@ registerBtn.addEventListener("click", (event) => {
   users.push(userInfo);
   writeToLS("users", users);
   writeToLS("loggedUser", userInfo);
+  location.assign("./Homepage.html");
 
-  let el = document.createElement("p");
-  el.innerText = userInfo.userNameInput;
-  usersToShow.appendChild(el);
+  // let el = document.createElement("p");
+  // el.innerText = userInfo.userNameInput;
+  // usersToShow.appendChild(el);
 });

@@ -27,10 +27,11 @@ signinBtn.addEventListener("click", (event) => {
     }
     return undefined;
   });
-  if(foundUser){
-    writeToLS("loggedUser", foundUser)
-    location.assign("./Homepage.html")
-  }else{
+  if (foundUser) {
+    foundUser.loginTime = Date.now();
+    writeToLS("loggedUser", foundUser);
+    location.assign("./Homepage.html");
+  } else {
     //de pus mesaj de un P cu mesaj de eroare ca e gresit
   }
 });

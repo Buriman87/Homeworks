@@ -1,3 +1,5 @@
+const sessionTimeOut = 0.3 * 60 * 1000;
+
 const writeToLS = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
@@ -46,14 +48,33 @@ function isValidEmail(email) {
   return emailRegex.test(email);
 }
 
-function checkUsername(username){
+function checkUsername(username) {
   const userArray = readFromLS("users") || [];
-  return userArray.some((user)=>user.userNameInput==username);
+  return userArray.some((user) => user.userNameInput == username);
 }
 
-function checkEmail(email){
+function checkEmail(email) {
   const userArray = readFromLS("users") || [];
-return userArray.some((user)=>user.emailInput==email)
+  return userArray.some((user) => user.emailInput == email);
+}
+
+function isSessionValid(loggedUser) {
+  const currentTime = Date.now();
+  const validSession = currentTime < loggedUser.loginTime + sessionTimeOut;
+  return validSession;
+}
+
+const CHECK_INTERVAL = 5000;
+
+function logoutInvalidSession(loggedUser,intervalID) {
+  console.log("gigi");
+  if (!isSessionValid(loggedUser)) {
+    clearInterval(intervalID);
+    alert(`Session time out!`);
+    removeFromLS("loggedUser");
+    console.log(loggedUser);
+    location.assign("./login.html");
+  }
 }
 
 export {
@@ -65,5 +86,9 @@ export {
   isValidName,
   isValidUsername,
   checkUsername,
-  checkEmail
+  checkEmail,
+  sessionTimeOut,
+  CHECK_INTERVAL,
+  logoutInvalidSession,
+  isSessionValid,
 };

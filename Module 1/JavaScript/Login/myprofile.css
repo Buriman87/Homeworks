@@ -1,0 +1,351 @@
+/* homepage.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  /* Navbar Styling */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    animation: slideDown 1s ease-in-out;
+  }
+  
+  .navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00ff00; /* Matrix green */
+    position: relative;
+    overflow: hidden; /* Hide overflowing text for animation */
+  }
+  
+  @keyframes matrixEffect {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  /* Logo matrix lines */
+  .logo::after {
+    content: attr(class); /* Use the class name to mimic a cascading text effect */
+    position: absolute;
+    top: -100%; /* Start above the logo */
+    left: 0;
+    width: 100%;
+    height: 200%;
+    overflow: hidden;
+    color: rgba(00); /* Placeholder].
+ </abs! EffectsOverride;sWithHtml;
+  .nav-links {
+    display: flex;
+    gap: 15px;
+    opacity: 0;
+    animation: fadeIn 2s 1s forwards; /* Delayed fade-in */
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    position: relative;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #00bcd4;
+    transform: scale(1.1); /* Zoom effect */
+  }
+  
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: #00bcd4;
+    bottom: -5px;
+    left: 0;
+    transition: width 0.4s ease;
+  }
+  
+  .nav-links a:hover::after {
+    width: 100%; /* Underline animation */
+  }
+  
+  /* Hamburger Styling */
+  .hamburger {
+    display: none; /* Hidden by default for larger screens */
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    animation: slideIn 1.5s ease-in-out;
+  }
+  
+  .hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    transition: transform 0.5s ease, background-color 0.3s ease;
+  }
+  
+  .hamburger:hover div {
+    background-color: #00bcd4;
+  }
+  
+  .hamburger.active div:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .hamburger.active div:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.active div:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+    
+  body {
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: #f0f0f0; /* Light background for visibility */
+    font-family: Arial, sans-serif;
+  }
+
+  /* Style for the box containing the text */
+  .currentUser {
+    background: #6200ea; /* Purple background */
+    color: #ffffff; /* White text */
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: pulse 1.5s infinite; /* Pulsing animation */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none; /* Hidden by default on small screens */
+      flex-direction: column;
+      background-color: #444;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: slideDown 0.5s ease forwards;
+    }
+  
+    .hamburger {
+      display: flex;
+    }
+  
+    .hamburger.active + .nav-links {
+      display: flex;
+      animation: fadeInUp 0.5s ease forwards;
+    }
+  }
+
+  /* Define the pulsing effect */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+      transform: scale(1.05); /* Slightly enlarge */
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(-50%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  /* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f9fc;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Container for the user form */
+  #userForm {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading */
+  #userForm h2 {
+    text-align: center;
+    color: #2a3d66;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Form Label Styling */
+  label {
+    display: block;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+    margin-top: 10px;
+  }
+  
+  /* Form Input Styling */
+  input[type="text"],
+  input[type="password"],
+  input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    box-sizing: border-box;
+  }
+  
+  /* Styling for readonly input fields (First Name, Last Name, Email, Username) */
+  input[readonly] {
+    background-color: #e6e6e6; /* Light gray for readonly fields */
+    cursor: not-allowed; /* To show it's not editable */
+  }
+  
+  /* Styling for number input fields (Age) */
+  input[type="number"] {
+    background-color: #e6f7ff; /* Light blue background for number fields (Age) */
+  }
+  
+  /* Styling for password input fields */
+  input[type="password"] {
+    background-color: #e6f7ff; /* Light blue for password fields */
+  }
+  
+  /* Submit Button Styling */
+  button {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Style for form submission feedback */
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* General Form Field Spacing */
+  br {
+    clear: both;
+  }
+  
+  /* Style for form field errors */
+  .error {
+    color: red;
+    font-size: 14px;
+  }
+  

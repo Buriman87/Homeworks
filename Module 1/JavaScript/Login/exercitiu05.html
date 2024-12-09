@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar with Tasks</title>
+    <script src="./exer.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .day {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+        }
+        .day:hover {
+            background-color: #f0f0f0;
+        }
+        .task-list {
+            margin-top: 10px;
+            font-size: 12px;
+            text-align: left;
+            color: #555;
+        }
+        .task-input {
+            display: none;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 1px solid #ccc;
+            padding: 5px;
+            z-index: 10;
+        }
+        .task-input input {
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calendar for December & January</h1>
+    <div id="calendar" class="calendar"></div>
+
+    <script src="calendar.js"></script>
+</body>
+</html>

@@ -57,6 +57,7 @@ registerBtn.addEventListener("click", (event) => {
     lastNameInput: lastname.value,
     passwordInput: btoa(password.value),
     ageInput: age.value,
+    loginTime: Date.now(),
   };
 
   console.log(">>userInfo: ", userInfo);
@@ -105,6 +106,7 @@ registerBtn.addEventListener("click", (event) => {
   users.push(userInfo);
   writeToLS("users", users);
   writeToLS("loggedUser", userInfo);
+
   location.assign("./Homepage.html");
 
   // let el = document.createElement("p");

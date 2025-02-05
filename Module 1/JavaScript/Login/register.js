@@ -40,13 +40,6 @@ const age = document.querySelector("#age");
 const error = document.querySelector("#error");
 const usersToShow = document.querySelector(".users");
 
-console.log(loggedUsers);
-// users.forEach((user) => {
-//   let el = document.createElement("p");
-//   el.innerText = user.userNameInput;
-//   usersToShow.appendChild(el);
-// });
-
 registerBtn.addEventListener("click", (event) => {
   event.preventDefault();
 

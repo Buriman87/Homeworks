@@ -10,10 +10,10 @@ const currentUserInfo = document.querySelector(".currentUser");
 
 const loggedUser = readFromLS("loggedUser") || false;
 
-const sessionCheckInterval = setInterval(
-  () => logoutInvalidSession(loggedUser, sessionCheckInterval),
-  CHECK_INTERVAL
-);
+// const sessionCheckInterval = setInterval(
+//   () => logoutInvalidSession(loggedUser, sessionCheckInterval),
+//   CHECK_INTERVAL
+// );
 
 const { firstNameInput, emailInput } = loggedUser;
 
@@ -28,14 +28,6 @@ function homePageCheckStatus() {
   }
 }
 homePageCheckStatus();
-
-document.querySelector(".hamburger").addEventListener("click", toggleMenu);
-function toggleMenu() {
-  const navLinks = document.querySelector(".nav-links");
-  navLinks.classList.toggle("active");
-  // navLinks.style.display="flex"
-  console.log("ceva");
-}
 
 const navLinks = document.getElementById("nav-links");
 const loggedLinks = document.getElementById("logged-links");

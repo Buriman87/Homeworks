@@ -1,0 +1,204 @@
+// Variables
+$font-stack: "Arial, sans-serif";
+$primary-bg: #f4f4f9;
+$text-color: #333;
+$heading-color: #3e6d9c;
+$nav-bg: #2c3e50;
+$nav-btn-bg: #34495e;
+$nav-btn-hover: #16a085;
+$table-bg: white;
+$table-shadow: rgba(0, 0, 0, 0.1);
+$table-border: #ddd;
+$danger-btn-bg: #e74c3c;
+$danger-btn-hover: #c0392b;
+$text-muted: #7f8c8d;
+
+// General styles
+body {
+  font-family: $font-stack;
+  margin: 0;
+  padding: 0;
+  background-color: $primary-bg;
+  color: $text-color;
+  line-height: 1.6;
+  background-image: url(../img/background.jpg);
+}
+
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  color: $heading-color;
+  font-size: 2rem;
+}
+
+// Navbar
+nav {
+  background-color: $nav-bg;
+  padding: 15px 30px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  .nav-buttons {
+    display: flex;
+    gap: 20px;
+
+    button {
+      padding: 10px 25px;
+      background-color: $nav-btn-bg;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+
+      &:hover {
+        background-color: $nav-btn-hover;
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+// Forms
+form {
+  width: 90%;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: $table-bg;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px $table-shadow;
+
+  div {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: $heading-color;
+    }
+
+    input,
+    select {
+      width: 95%;
+      padding: 10px;
+      border: 1px solid $table-border;
+      border-radius: 5px;
+    }
+  }
+
+  button {
+    display: block;
+    width: 50%;
+    padding: 10px;
+    background-color: $nav-btn-hover;
+    margin: 1px auto;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: lighten($nav-btn-hover, 10%);
+    }
+  }
+}
+
+// Table
+table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: $table-bg;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px $table-shadow;
+
+  th {
+    background-color: $nav-bg;
+    color: white;
+    padding: 15px;
+  }
+
+  td {
+    padding: 12px 15px;
+    text-align: center;
+    border-top: 1px solid $table-border;
+  }
+}
+
+// Buttons
+button {
+  padding: 8px 16px;
+  background-color: $danger-btn-bg;
+
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $danger-btn-hover;
+  }
+}
+
+// Muted text
+.text-muted {
+  font-style: italic;
+  color: $text-muted;
+  text-align: center;
+}
+
+// Profile and additional sections
+.userDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $nav-bg;
+  padding: 10px 20px;
+  border-radius: 10px;
+
+  #profile,
+  #logoutBtn {
+    padding: 10px 20px;
+    background-color: $nav-btn-hover;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: lighten($nav-btn-hover, 10%);
+    }
+  }
+}
+
+#error {
+  text-align: center;
+}
+a {
+  text-decoration: none;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  button {
+    align-self: center;
+    margin-bottom: 2px;
+  }
+  .infoProfil {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

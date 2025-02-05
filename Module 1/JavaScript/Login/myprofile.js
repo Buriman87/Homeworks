@@ -84,8 +84,44 @@ function displayUserForm(user) {
   submitButton.textContent = "Update Info";
   form.appendChild(submitButton);
 
+  // form.addEventListener("submit", function (event) {
+  //   event.preventDefault(); 
+  //   const updatedUser = {
+  //     firstNameInput: form.querySelector("input[name='firstNameInput']").value,
+  //     lastNameInput: form.querySelector("input[name='lastNameInput']").value,
+  //     emailInput: form.querySelector("input[name='emailInput']").value,
+  //     userNameInput: form.querySelector("input[name='userNameInput']").value,
+  //     ageInput: form.querySelector("input[name='ageInput']").value,
+  //   };
+
+
+  //   const password = form.querySelector("input[name='passwordInput']").value;
+  //   const confirmPassword = form.querySelector("input[name='confirmPasswordInput']").value;
+
+  //   if (password && password !== confirmPassword) {
+  //     alert("Password and Confirm Password must match!");
+  //     return; 
+  //   }
+
+  //   if (password) {
+  //     updatedUser.passwordInput = password;
+  //   } else {
+  //     updatedUser.passwordInput = user.passwordInput;
+  //   }
+
+  //   localStorage.setItem("loggedUser", JSON.stringify(updatedUser));
+    
+
+
+
+  //   currentUserInfo.innerHTML = `Hello ${updatedUser.firstNameInput}! We are very happy to have you back!`;
+
+
+  //   alert("Your information has been updated!");
+  // });
   form.addEventListener("submit", function (event) {
-    event.preventDefault(); 
+    event.preventDefault();
+  
     const updatedUser = {
       firstNameInput: form.querySelector("input[name='firstNameInput']").value,
       lastNameInput: form.querySelector("input[name='lastNameInput']").value,
@@ -93,30 +129,47 @@ function displayUserForm(user) {
       userNameInput: form.querySelector("input[name='userNameInput']").value,
       ageInput: form.querySelector("input[name='ageInput']").value,
     };
-
+  
     const password = form.querySelector("input[name='passwordInput']").value;
     const confirmPassword = form.querySelector("input[name='confirmPasswordInput']").value;
-
+  
+    // Validate password and confirmPassword
     if (password && password !== confirmPassword) {
       alert("Password and Confirm Password must match!");
-      return; 
+      return;
     }
-
+  
+    // If a new password is provided, encode it with `btoa`
     if (password) {
-      updatedUser.passwordInput = password;
+      updatedUser.passwordInput = btoa(password);
     } else {
+      // Retain the old password if no new password is entered
       updatedUser.passwordInput = user.passwordInput;
     }
-
+  
+    // Update loggedUser in localStorage
     localStorage.setItem("loggedUser", JSON.stringify(updatedUser));
-
-
+  
+    // Update the users array in localStorage
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const userIndex = users.findIndex(
+      (existingUser) => existingUser.emailInput === user.emailInput
+    );
+  
+    if (userIndex !== -1) {
+      users[userIndex] = { ...users[userIndex], ...updatedUser };
+      localStorage.setItem("users", JSON.stringify(users));
+    } else {
+      console.warn("User not found in users list. This should not happen!");
+    }
+  
+    // Update the greeting
     currentUserInfo.innerHTML = `Hello ${updatedUser.firstNameInput}! We are very happy to have you back!`;
-
-
+  
+    // Show success message
     alert("Your information has been updated!");
   });
-
+  
 
   formContainer.appendChild(form);
 }

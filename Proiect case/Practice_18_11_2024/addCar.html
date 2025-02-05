@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+
+    <script type="module" src="./addCar.js" defer></script>
+  </head>
+  <body>
+    <nav>
+      <div class="userDiv"></div>
+      <div class="nav-buttons">
+        <button id="myListOfCars">My List</button>
+        <button id="profile">MyProfile</button>
+        <button id="logoutBtn">Logout</button>
+      </div>
+    </nav>
+    <div class="main">
+      <h1>Add Car</h1>
+
+      <div class="container">
+        <form>
+          <div>
+            <label for="carBrand">Car Brand:</label>
+            <input
+              type="text"
+              id="carBrand"
+              required
+              placeholder="Car Brand"
+              name="carBrand"
+            />
+          </div>
+
+          <div>
+            <label for="carModel">Car Model:</label>
+            <input
+              type="text"
+              id="carModel"
+              required
+              placeholder="Car Model"
+              name="carModel"
+            />
+          </div>
+          <div>
+            <label for="fuelType">Fuel:</label>
+            <select name="fuelType" id="fuelType">
+              <option value="gasoline" selected="selected">Gasoline</option>
+              <option value="diesel">Diesel</option>
+              <option value="hybrid">Hybrid</option>
+              <option value="electric">Electric</option>
+            </select>
+          </div>
+          <div>
+            <label for="yearOfFabrication">Year:</label>
+            <input
+              type="date"
+              id="yearOfFabrication"
+              required
+              placeholder="Year of fabrication"
+              name="yearOfFabrication"
+            />
+          </div>
+          <div>
+            <label for="carPrice">Price:</label>
+            <input
+              type="text"
+              id="carPrice"
+              required
+              placeholder="Car Price"
+              name="carPrice"
+            />
+          </div>
+          <div>
+            <label for="numberOfKm">Number of Km:</label>
+            <input
+              type="text"
+              id="numberOfKm"
+              required
+              placeholder="Number of Km"
+              name="numberOfKm"
+            />
+          </div>
+          <button type="submit" id="addNewCar">Add</button>
+          <div>
+            <p id="error"></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

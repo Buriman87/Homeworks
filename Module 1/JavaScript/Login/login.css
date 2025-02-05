@@ -126,6 +126,8 @@ form button {
     width: 50%; 
     align-self: center;
     text-transform: uppercase;
+    font-weight: bolder;
+
 
 }
 

@@ -1,0 +1,110 @@
+:root {
+  --background-color-light: #ffffff;
+  --text-color-light: #000000;
+  --background-color-dark: #333333;
+  --text-color-dark: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+body.light-theme {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+body.dark-theme {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+/* Styles for the theme toggle button */
+.theme-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: 2px solid currentColor;
+  color: inherit;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+/* Styles for the registration form */
+.main {
+  margin: 50px auto;
+  padding: 20px;
+  max-width: 500px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.main h1 {
+  text-align: center;
+  text-transform: capitalize;
+}
+
+form.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form.container div {
+  display: flex;
+  flex-direction: column;
+}
+
+form.container label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form.container input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form.container .testRegister {
+  text-align: center;
+}
+
+form.container .testRegister button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form.container .testRegister button:hover {
+  background-color: #0056b3;
+}
+
+form.container p {
+  text-align: center;
+}
+
+form.container p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+form.container p a:hover {
+  text-decoration: underline;
+}
+
+/* Dark theme form background */
+body.dark-theme .main {
+  background-color: #444;
+  border-color: #666;
+}/*# sourceMappingURL=style.css.map */

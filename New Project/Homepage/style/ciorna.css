@@ -1,0 +1,405 @@
+/* --------------------------------------------------
+   Global Reset
+-------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* --------------------------------------------------
+     Base Body Styles
+  -------------------------------------------------- */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+  }
+  
+  /* --------------------------------------------------
+     Container for Main Content (Cards)
+  -------------------------------------------------- */
+  .containerClass {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    background-color: yellow; /* For testing; change as needed */
+  }
+  
+  .card-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem auto;
+  }
+  
+  .arrow-btn {
+    background-color: #f0f0f0;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.3s;
+  }
+  
+  .arrow-btn:hover {
+    background-color: #ddd;
+  }
+  
+  .arrow-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Default card container: shows 3 cards per row */
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    overflow: hidden;
+    width: calc((300px * 3) + (1rem * 2));
+    transition: transform 0.6s ease;
+  }
+  
+  /* Each flat card */
+  .flat-card {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 300px; /* Fixed width: 300px */
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    max-height: 300px;
+    min-height: 300px;
+    transition: transform 0.3s ease;
+  }
+  
+  .flat-card p {
+    margin: 0.25rem 0;
+  }
+  
+  .flat-card img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 4px;
+    object-fit: cover;
+  }
+  
+  /* --------------------------------------------------
+     Media Queries
+  -------------------------------------------------- */
+  
+  /* Screens between 1900px and 1441px: 3 cards per row */
+  @media (max-width: 1900px) and (min-width: 1441px) {
+    .card-container {
+      width: calc((300px * 3) + (1rem * 2));
+    }
+  }
+  
+  /* Screens between 1440px and 1025px: 2 cards per row */
+  @media (max-width: 1440px) and (min-width: 1025px) {
+    .card-container {
+      width: calc((300px * 2) + (1rem * 1));
+    }
+    .flat-card {
+      flex: 0 0 300px;
+    }
+  }
+  
+  /* Screens between 1024px and 769px: 1 card per row */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    .card-container {
+      width: 300px;
+    }
+  }
+  
+  /* Screens 768px and below: container takes full width, card fills container */
+  @media (max-width: 768px) {
+    .card-container {
+      width: 100%;
+    }
+    .flat-card {
+      flex: 0 0 100%;
+    }
+  }
+  
+  /* Very small screens (375px and below) */
+  @media (max-width: 375px) {
+    .card-container {
+      padding: 0 0.5rem;
+    }
+    .flat-card {
+      padding: 0.5rem;
+    }
+  }
+  
+  /* --------------------------------------------------
+     Modal Styling
+  -------------------------------------------------- */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    width: 600px;  /* Modal width */
+    height: 700px; /* Modal height */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  
+  .modal-content h2 {
+    color: #23395b; /* Secondary color */
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+  
+  /* Form styling inside modal */
+  .modal-content form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    overflow-y: auto;
+  }
+  
+  .modal-content form label {
+    font-weight: bold;
+    text-align: left;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  .modal-content form input,
+  .modal-content form select,
+  .modal-content form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .modal-content form textarea {
+    resize: none;
+    height: 70px;
+  }
+  
+  /* Button group inside modal */
+  .modal-content .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .modal-content .button-group button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .modal-content .button-group .submit-btn {
+    background-color: #4caf50; /* Primary color */
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .modal-content .button-group .submit-btn:hover {
+    background-color: #439f46; /* Slightly darker */
+  }
+  
+  .modal-content .button-group .cancel-btn {
+    background-color: #e74c3c; /* Accent color */
+    color: white;
+  }
+  
+  .modal-content .button-group .cancel-btn:hover {
+    background-color: #cf3d33; /* Slightly darker */
+  }
+  
+  /* --------------------------------------------------
+     Navbar Styling
+  -------------------------------------------------- */
+  .navbar {
+    width: 100vw;
+    height: 50px;
+    background-color: #23395b; /* Example dark color */
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .navbar div {
+    margin: 15px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #444;
+    overflow: hidden;
+    max-height: auto;
+    transition: max-height 0.3s ease-out;
+    width: 150px;
+    z-index: 1000;
+  }
+  
+  .dropdown-item {
+    padding: 10px;
+    color: white;
+    border-bottom: 1px solid #555;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #555;
+  }
+  
+  .navbar div:not(.dropdown) {
+    padding: 10px;
+  }
+  
+  /* --------------------------------------------------
+     Footer Styling
+  -------------------------------------------------- */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #23395b;
+    color: #333;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #23395b;
+  }
+  
+  .footer .coBtn {
+    display: flex;
+    float: inline-start;
+  }
+  
+  .footer .coBtn div {
+    margin: 10px;
+  }
+  
+  .footer .socialBtn {
+    display: flex;
+    float: inline-start;
+  }
+  
+  .footer .socialBtn div {
+    margin: 10px;
+  }
+  
+  /* --------------------------------------------------
+     Additional Card List Styling (Optional)
+  -------------------------------------------------- */
+  .cardList .cardItem {
+    list-style: none;
+  }
+  
+  .cardList .cardItem .cardLink {
+    width: 400px;
+    display: block;
+    background-color: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+    transition: 0.5s ease;
+  }
+  
+  .cardList .cardItem .cardLink:hover {
+    border-color: #5372f0;
+  }
+  
+  .cardList .cardItem .cardLink .cardImage {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .cardList .cardItem .cardLink .badge {
+    color: blue;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 16px 0 18px;
+    background: white;
+    width: fit-content;
+    border-radius: 50px;
+  }
+  
+  .cardList .cardItem .cardLink .cardTitle {
+    font-size: 1.19rem;
+    color: black;
+    font-weight: 600;
+  }
+  
+  .cardList .cardItem .cardLink .cardButton {
+    height: 35px;
+    width: 35px;
+    color: #5372f0;
+    border-radius: 50%;
+    margin: 30px 0 5px;
+    background: none;
+    cursor: pointer;
+    border: 2px solid #5372f0;
+    transform: rotate(-45deg);
+    transition: 0.5s ease;
+  }
+  
+  .cardList .cardItem .cardLink:hover .cardButton {
+    color: #fff;
+    background: #5372f0;
+  }
+  
+  .cardImage {
+    border: 2px solid brown;
+  }
+  
+  .logoImg {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .logoDark {
+    fill: greenyellow;
+  }
+  

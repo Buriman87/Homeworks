@@ -1,0 +1,595 @@
+@import "../../Utils/variables";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  .containerClass {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 90vh;
+    background-color: yellow;
+
+    .card-carousel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+
+      .arrow-btn {
+        background-color: #f0f0f0;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: #ddd;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+
+      .card-container {
+        display: flex;
+        align-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        overflow: hidden;
+        width: max(1260px, auto);
+        transition: transform 0.6s ease;
+
+        .flat-card {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background: #fff;
+          padding: 15px;
+          border-radius: 10px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+          margin: 10px;
+          width: 260px;
+          /* Modal Styling */
+#flatModal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: white;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Tooltip Styling */
+.tooltip {
+  position: relative;
+  cursor: pointer;
+  border-bottom: 1px dashed #ff0000;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 12px;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.tooltip:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+          .flat-image-container {
+            width: 100%;
+            text-align: center;
+          }
+
+          .flat-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+          }
+
+          .flat-details {
+            width: 100%;
+            text-align: left;
+          }
+
+          .editable-field {
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+            border-bottom: 1px dashed #007bff;
+          }
+
+          .editable-field:hover {
+            color: #0056b3;
+          }
+
+          .tooltip {
+            position: relative;
+            cursor: pointer;
+            border-bottom: 1px dashed #ff0000;
+          }
+
+          .tooltip::after {
+            content: attr(data-tooltip);
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+            transition: opacity 0.2s ease-in-out;
+            z-index: 10;
+          }
+
+          .tooltip:hover::after {
+            visibility: visible;
+            opacity: 1;
+          }
+          // /* Tooltip */
+          // .price-tooltip {
+          //   position: relative;
+          //   cursor: pointer;
+          //   border-bottom: 1px dashed #ff0000;
+          // }
+
+          // .price-tooltip::after {
+          //   content: attr(data-tooltip);
+          //   visibility: hidden;
+          //   opacity: 0;
+          //   position: absolute;
+          //   bottom: 100%;
+          //   left: 50%;
+          //   transform: translateX(-50%);
+          //   background-color: rgba(0, 0, 0, 0.8);
+          //   color: #fff;
+          //   padding: 5px 10px;
+          //   border-radius: 5px;
+          //   white-space: nowrap;
+          //   font-size: 12px;
+          //   transition: opacity 0.2s ease-in-out;
+          //   z-index: 10;
+          // }
+
+          // .price-tooltip:hover::after {
+          //   visibility: visible;
+          //   opacity: 1;
+          // }
+          .editable-field {
+            font-weight: bold;
+            color: #007bff;
+            border-bottom: 1px dashed #007bff;
+            align-self: self-end;
+          }
+
+          .editable-field:hover {
+            color: #0056b3;
+          }
+          // Example minimal content styling
+          p {
+            margin: 0.25rem 0;
+            font-weight: bolder;
+          }
+
+          img {
+            display: block; // Makes the image a block element
+            margin: 0 auto; // Centers the image horizontally
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 4px;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+    @media (max-width: 1900px) and (min-width: 1441px) {
+      .card-container {
+        width: max(1260px, auto);
+      }
+    }
+
+    /* Screens between 1440px and 1025px: 2 cards per row */
+    @media (max-width: 1440px) and (min-width: 1025px) {
+      .card-container {
+        width: max(960px, auto);
+      }
+      .flat-card {
+        flex: 0 0 300px;
+        height: 400px;
+      }
+    }
+
+    /* Screens between 1024px and 769px: 1 card per row */
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .card-container {
+        width: 300px;
+        height: 400px;
+      }
+    }
+
+    /* Screens 768px and below: container takes full width, card fills container */
+    @media (max-width: 768px) {
+      .card-container {
+        width: 100%;
+      }
+      .flat-card {
+        flex: 0 0 100%;
+        height: 400px;
+      }
+    }
+
+    /* Very small screens (375px and below) */
+    @media (max-width: 375px) {
+      .card-container {
+        padding: 0 0.5rem;
+      }
+      .flat-card {
+        padding: 0.5rem;
+      }
+    }
+  }
+  // =========================
+  // Color Variables
+  // =========================
+  $primary-color: #4caf50;
+  $secondary-color: #23395b;
+  $bg-color: #f8f9fa;
+  $text-color: #333;
+  $accent-color: #e74c3c;
+
+  // =========================
+  // Modal Styling (Final Fixed Layout)
+  // =========================
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background: white;
+    width: 600px; // Larger modal
+    height: 700px; // Increased height to fit all elements inside
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; // Ensures no elements overflow
+
+    h2 {
+      color: $secondary-color;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    // =========================
+    // Form Styling (Now fits inside the modal)
+    // =========================
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      overflow-y: auto; // Ensures fields never go outside the modal
+
+      label {
+        font-weight: bold;
+        text-align: left;
+        font-size: 1rem;
+        width: 100%;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        box-sizing: border-box;
+      }
+
+      textarea {
+        resize: none;
+        height: 70px;
+      }
+    }
+
+    // =========================
+    // Button Group (Inside the Modal)
+    // =========================
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      width: 100%;
+
+      button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .submit-btn {
+        background-color: $primary-color;
+        color: white;
+        margin-right: 10px;
+
+        &:hover {
+          background: darken($primary-color, 10%);
+        }
+      }
+
+      .cancel-btn {
+        background-color: $accent-color;
+        color: white;
+
+        &:hover {
+          background: darken($accent-color, 10%);
+        }
+      }
+    }
+  }
+
+  .cardList .cardItem {
+    list-style: none;
+  }
+  .cardList .cardItem .cardLink {
+    width: 400px;
+    display: block;
+    background-color: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+    transition: 0.5s ease;
+  }
+  .cardList .cardItem .cardLink:hover {
+    border-color: #5372f0;
+  }
+  .cardList .cardLink .cardImage {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .cardList .cardLink .badge {
+    color: blue;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 16px 0 18px;
+    background: white;
+    width: fit-content;
+    border-radius: 50px;
+  }
+  .cardList .cardLink .cardTitle {
+    font-size: 1.19rem;
+    color: black;
+    font-weight: 600;
+  }
+  .cardList .cardLink .cardButton {
+    height: 35px;
+    width: 35px;
+    color: #5372f0;
+    border-radius: 50%;
+    margin: 30px 0 5px;
+    background: none;
+    cursor: pointer;
+    border: 2px solid #5372f0;
+    transform: rotate(-45deg);
+    transition: 0.5s ease;
+  }
+  .cardList .cardLink:hover .cardButton {
+    color: #fff;
+    background: #5372f0;
+  }
+  .cardImage {
+    border: 2px solid brown;
+  }
+  .logoImg {
+    width: 50px;
+    height: 50px;
+  }
+  .logoDark {
+    fill: greenyellow;
+  }
+  .navbar {
+    width: 100vw;
+    height: 50px;
+    background-color: $light-button-scolor;
+    display: flex;
+    justify-content: space-between;
+    div {
+      margin: 15px;
+      cursor: pointer;
+      position: relative;
+    }
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #444;
+      overflow: hidden;
+      max-height: auto;
+      transition: max-height 0.3s ease-out;
+      width: 150px;
+      z-index: 1000;
+    }
+
+    .dropdown-item {
+      padding: 10px;
+      color: white;
+      border-bottom: 1px solid #555;
+    }
+
+    .dropdown-item:hover {
+      background-color: #555;
+    }
+
+    .navbar div:not(.dropdown) {
+      padding: 10px;
+    }
+  }
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: $light-button-scolor;
+    color: $dark-text;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: $light-button-scolor;
+    .coBtn {
+      display: flex;
+      float: inline-start;
+      div {
+        margin: 10px;
+      }
+    }
+    .socialBtn {
+      display: flex;
+      float: inline-start;
+      div {
+        margin: 10px;
+      }
+    }
+  }
+}
+@media (max-width: 1900px) and (min-width: 1441px) {
+  .containerClass {
+    background-color: red;
+    .card-carousel {
+      .card-container {
+        width: calc((300px * 3) + (1rem * 2));
+      }
+    }
+  }
+}
+
+/* Media Query for screens 1440px and below to 1024px – display 2 cards per view */
+@media (max-width: 1440px) and (min-width: 1025px) {
+  .card-carousel {
+    .card-container {
+      width: calc((300px * 2) + (1rem * 1)); // Enough for 2 cards plus one gap
+    }
+  }
+}
+
+/* Media Query for screens 1024px and below to 768px – display 1 card per view */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .card-carousel {
+    .card-container {
+      width: 300px; // Only one card fits in the viewport
+    }
+  }
+}
+
+/* Media Query for screens 768px and below – display 1 card per view, adjust card width to full viewport */
+@media (max-width: 768px) {
+  body .containerClass .card-carousel .card-container {
+    justify-content: center;
+    .flat-card {
+      height: 400px;
+      width: 250px;
+      img {
+        width: 150px;
+      }
+    }
+  }
+  .card-carousel {
+    .card-container {
+      width: 100%; // Let the container take full width
+    }
+  }
+}
+
+/* Optional: Additional styling for very small devices (e.g., 375px wide) */
+@media (max-width: 375px) {
+  .card-carousel {
+    .card-container {
+      padding: 0 0.5rem; // Optional padding adjustments
+    }
+    body .containerClass .card-carousel .card-container .flat-card {
+      padding: 0.5rem;
+    }
+  }
+}

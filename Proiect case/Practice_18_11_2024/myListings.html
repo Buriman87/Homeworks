@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="module" src="./myListings.js" defer></script>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <div>
+      <nav>
+        <div class="userDiv"></div>
+        <div class="nav-buttons">
+          <button id="myListOfCars">My List</button>
+          <button id="profile">MyProfile</button>
+          <button id="logoutBtn">Logout</button>
+        </div>
+      </nav>
+      <h1>My Listings</h1>
+      <table id="listingsTable">
+        <thead>
+          <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Fuel</th>
+            <th>Year</th>
+            <th>Price</th>
+            <th>Kilometers</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </body>
+</html>

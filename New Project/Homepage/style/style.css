@@ -473,6 +473,15 @@ body {
   flex-direction: column;
   gap: 10px;
 }
+.modal-content .favorite-container .favorite-icon {
+  font-size: 50px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.modal-content .favorite-container .favorite-icon:hover {
+  color: red;
+}
 
 /* 🔹 Close Button */
 .close-modal {

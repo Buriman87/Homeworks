@@ -268,7 +268,60 @@ function replaceScript(src, isModule = false) {
   // Append the new script to the document head
   document.head.appendChild(script);
 }
+// const favProcess = document.getElementById("favIcon");
+// const toggleFav()
+function toggleFavorite(flatId) {
+  // Retrieve logged user from localStorage
+  const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+  if (!loggedUser || !loggedUser.userId) {
+    alert("You must be logged in to favorite a flat.");
+    return;
+  }
+
+  // Retrieve users from localStorage
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
+  // Retrieve flats from localStorage
+  const flats = JSON.parse(localStorage.getItem("flats")) || [];
+
+  // Find the logged user's ID from users list
+  const user = users.find((user) => user.userId === loggedUser.userId);
+  if (!user) {
+    alert("User not found.");
+    return;
+  }
+
+  const userId = user.userId; // Extract the correct userId
+
+  // Find the flat by ID (using the correct 'id' key)
+  const flatIndex = flats.findIndex((flat) => flat.id === id);
+  if (flatIndex === -1) {
+    console.error("Flat not found.");
+    return;
+  }
+
+  // Ensure the favorites array exists in the flat object
+  if (!Array.isArray(flats[flatIndex].favorites)) {
+    flats[flatIndex].favorites = [];
+  }
+
+  // Toggle favorite: Add if not present, remove if already favorited
+  if (!flats[flatIndex].favorites.includes(userId)) {
+    flats[flatIndex].favorites.push(userId);
+    alert("Flat added to favorites!");
+  } else {
+    flats[flatIndex].favorites = flats[flatIndex].favorites.filter(
+      (id) => id !== userId
+    );
+    alert("Flat removed from favorites.");
+  }
+
+  // Save updated flats back to localStorage
+  localStorage.setItem("flats", JSON.stringify(flats));
+}
+
 export {
+  toggleFavorite,
   writeToLS,
   readFromLS,
   removeFromLS,

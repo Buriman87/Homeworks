@@ -1,4 +1,4 @@
-import { readFromLS, replaceScript } from "../Utils/utils.js";
+import { readFromLS, replaceScript, toggleFavorite } from "../Utils/utils.js";
 
 const loggedUser = readFromLS("loggedUser") || {};
 if (Object.keys(loggedUser).length > 0) {
@@ -89,7 +89,7 @@ function openFlatModal(flatIndex) {
           <div class="modal-content">
               <span class="close-modal">Close</span>
               <div class="favorite-container">
-                  <span class="material-symbols-outlined favorite-icon">favorite</span>
+                  <span class="material-symbols-outlined favorite-icon" id="favIcon">favorite</span>
               </div>
               <h2>${selectedFlat.shortName}</h2>
               <img src="${
@@ -138,9 +138,18 @@ function openFlatModal(flatIndex) {
       modal.remove();
     }
   });
-  document.querySelector(".favorite-icon").addEventListener("click", () => {
-    alert("Added to Favorites!"); // Replace this with your actual favorite functionality
-  });
+  function setupFavoriteButtons() {
+    document.querySelectorAll(".favorite-icon").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation(); // Prevents event bubbling if inside another clickable element
+        const flatId = button.getAttribute("data-flat-id"); // Get flat ID dynamically
+        toggleFavorite(flatId);
+      });
+    });
+  }
+
+  // Call this function after rendering flats
+  setupFavoriteButtons();
 }
 
 // Pagination Variables

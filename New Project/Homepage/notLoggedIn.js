@@ -30,8 +30,3 @@ registerBtn.addEventListener("click", () => {
 });
 
 const bodyEl = document.getElementById("container");
-
-// const newDiv = document.createElement(`div`);
-// newDiv.className = "mainBox";
-// newDiv.id = "mainContainer";
-// bodyEl.appendChild(newDiv);

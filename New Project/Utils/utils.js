@@ -14,6 +14,9 @@ const removeFromLS = (key) => {
   return false;
 };
 
+const sessionTimeOut = 1 * 10 * 1000; //minut x secunda x milisecunda
+const CHECK_INTERVAL = 5 * 1000;
+
 class UserData {
   constructor(
     username,
@@ -226,28 +229,38 @@ const checkEdit = (
 
   return errors;
 };
-const sessionTimeOut = 100 * 60 * 1000;
+
 const logOutTime = (loggedUser) => {
   const currentTime = Date.now();
   const validSesion = currentTime > loggedUser.loginTime + sessionTimeOut;
   return validSesion;
 };
 
-const CHECK_INTERVEL = 5 * 1000;
-const logoutInvalidSession = (loggedUser) => {
-  if (logOutTime(loggedUser)) {
-    alert(`Session time out!`);
-    removeFromLS("loggedUser");
-    window.location.assign("./login.html");
+let logOutTrigger = false;
+const logoutInvalidSession = async (loggedUser) => {
+  if (!logOutTrigger && logOutTime(loggedUser)) {
+    logOutTrigger = true;
+    await Swal.fire({
+      title: "Your session time has expired.",
+      text: "Do you want to remain logged in?",
+      showDenyButton: true,
+      // showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        loggedUser.loginTime = loggedUser.loginTime + sessionTimeOut;
+        location.reload();
+      } else if (result.isDenied) {
+        removeFromLS("loggedUser");
+        window.location.assign("../Login/login.html");
+      }
+    });
+    // removeFromLS("loggedUser");
+    // window.location.assign("../Login/login.html");
   }
 };
-// const loadScript = (path) => {
-//   const script = document.createElement("script");
-//   script.src = path;
-//   // script.onload = console.log("new script loaded!");
-//   // script.onerror = console.log("error loading new script!");
-//   document.head.appendChild(script);
-// };
 
 function replaceScript(src, isModule = false) {
   // Check if a script with the same src already exists
@@ -260,63 +273,71 @@ function replaceScript(src, isModule = false) {
   // Create a new script element
   const script = document.createElement("script");
   script.src = src;
-  script.defer = true; // Ensure the script is deferred
+  script.defer = true;
   if (isModule) {
-    script.type = "module"; // Set the script as a module
+    script.type = "module";
   }
 
-  // Append the new script to the document head
   document.head.appendChild(script);
 }
-// const favProcess = document.getElementById("favIcon");
-// const toggleFav()
+
 function toggleFavorite(flatId) {
-  // Retrieve logged user from localStorage
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
   if (!loggedUser || !loggedUser.userId) {
-    alert("You must be logged in to favorite a flat.");
+    console.error("No user is logged in.");
     return;
   }
 
-  // Retrieve users from localStorage
-  const users = JSON.parse(localStorage.getItem("users")) || [];
+  let flats = JSON.parse(localStorage.getItem("flats")) || [];
 
-  // Retrieve flats from localStorage
-  const flats = JSON.parse(localStorage.getItem("flats")) || [];
+  const flatIndex = flats.findIndex((flat) => flat.id === flatId);
 
-  // Find the logged user's ID from users list
-  const user = users.find((user) => user.userId === loggedUser.userId);
-  if (!user) {
-    alert("User not found.");
-    return;
-  }
-
-  const userId = user.userId; // Extract the correct userId
-
-  // Find the flat by ID (using the correct 'id' key)
-  const flatIndex = flats.findIndex((flat) => flat.id === id);
   if (flatIndex === -1) {
-    console.error("Flat not found.");
+    console.error("Flat not found in localStorage.");
     return;
   }
 
-  // Ensure the favorites array exists in the flat object
-  if (!Array.isArray(flats[flatIndex].favorites)) {
-    flats[flatIndex].favorites = [];
-  }
-
-  // Toggle favorite: Add if not present, remove if already favorited
-  if (!flats[flatIndex].favorites.includes(userId)) {
-    flats[flatIndex].favorites.push(userId);
-    alert("Flat added to favorites!");
+  if (!flats[flatIndex].favorites.includes(loggedUser.userId)) {
+    flats[flatIndex].favorites.push(loggedUser.userId);
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: "success",
+      title: "Flat added succesfuly!",
+    });
+    console.log(`User ${loggedUser.userId} added to favorites.`);
   } else {
-    flats[flatIndex].favorites = flats[flatIndex].favorites.filter(
-      (id) => id !== userId
-    );
-    alert("Flat removed from favorites.");
+    let favorites = flats[flatIndex].favorites;
+    favorites = favorites.filter((e) => e !== loggedUser.userId);
+
+    flats[flatIndex].favorites = favorites;
+    console.log(`User ${loggedUser.userId} is already in favorites.`);
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: "success",
+      title: "Flat removed succesfuly!",
+    });
   }
 
-  // Save updated flats back to localStorage
   localStorage.setItem("flats", JSON.stringify(flats));
 }
 
@@ -325,7 +346,7 @@ export {
   writeToLS,
   readFromLS,
   removeFromLS,
-  CHECK_INTERVEL,
+  CHECK_INTERVAL,
   UserData,
   sessionTimeOut,
   signupErrors,

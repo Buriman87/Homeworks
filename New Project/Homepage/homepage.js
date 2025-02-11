@@ -1,4 +1,11 @@
-import { readFromLS, replaceScript, toggleFavorite } from "../Utils/utils.js";
+import {
+  readFromLS,
+  replaceScript,
+  toggleFavorite,
+  CHECK_INTERVAL,
+  logoutInvalidSession,
+  logOutTime,
+} from "../Utils/utils.js";
 
 const loggedUser = readFromLS("loggedUser") || {};
 if (Object.keys(loggedUser).length > 0) {
@@ -6,6 +13,9 @@ if (Object.keys(loggedUser).length > 0) {
 } else {
   replaceScript("./notLoggedIn.js", true);
 }
+setInterval(() => {
+  logoutInvalidSession(loggedUser);
+}, CHECK_INTERVAL);
 
 function renderFlatCards() {
   const cardContainer = document.getElementById("cardContainer");
@@ -65,6 +75,7 @@ function renderFlatCards() {
 }
 
 function openFlatModal(flatIndex) {
+  console.log(flatIndex);
   const flats = JSON.parse(localStorage.getItem("flats")) || [];
   const users = JSON.parse(localStorage.getItem("users")) || [];
   const selectedFlat = flats[flatIndex];
@@ -74,7 +85,7 @@ function openFlatModal(flatIndex) {
     return;
   }
 
-  // Find the owner (user) of the flat
+  //finds the owner of the flat
   const owner = users.find((user) => user.id === selectedFlat.userId);
 
   // Remove existing modal if present
@@ -89,7 +100,7 @@ function openFlatModal(flatIndex) {
           <div class="modal-content">
               <span class="close-modal">Close</span>
               <div class="favorite-container">
-                  <span class="material-symbols-outlined favorite-icon" id="favIcon">favorite</span>
+                  <span class="material-symbols-outlined favorite-icon" id="favIcon" data-flat-id="">favorite</span>
               </div>
               <h2>${selectedFlat.shortName}</h2>
               <img src="${
@@ -142,13 +153,12 @@ function openFlatModal(flatIndex) {
     document.querySelectorAll(".favorite-icon").forEach((button) => {
       button.addEventListener("click", (event) => {
         event.stopPropagation(); // Prevents event bubbling if inside another clickable element
-        const flatId = button.getAttribute("data-flat-id"); // Get flat ID dynamically
-        toggleFavorite(flatId);
+        const flats = readFromLS("flats");
+        toggleFavorite(flats[flatIndex].id);
       });
     });
   }
 
-  // Call this function after rendering flats
   setupFavoriteButtons();
 }
 
@@ -187,6 +197,27 @@ function updateVisibleCards(totalFlats) {
 
   prevBtn.disabled = currentPage === 0;
   nextBtn.disabled = endIndex >= totalFlats;
+}
+document.getElementById("sortOptions").addEventListener("change", function () {
+  const selectedCriteria = this.value;
+  if (selectedCriteria) {
+    sortFlats(selectedCriteria);
+  }
+});
+
+function sortFlats(criteria) {
+  let flats = JSON.parse(localStorage.getItem("flats")) || [];
+
+  if (criteria === "city") {
+    flats.sort((a, b) => a.city.localeCompare(b.city)); // Sort Alphabetically
+  } else if (criteria === "rentPrice") {
+    flats.sort((a, b) => a.rentPrice - b.rentPrice); // Sort Numerically
+  } else if (criteria === "areaSize") {
+    flats.sort((a, b) => a.areaSize - b.areaSize); // Sort Numerically
+  }
+
+  localStorage.setItem("flats", JSON.stringify(flats)); // Update localStorage
+  renderFlatCards(); // Re-render flats
 }
 
 // Pagination Setup

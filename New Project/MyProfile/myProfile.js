@@ -1,4 +1,11 @@
-import { readFromLS, writeToLS, editProfile } from "../Utils/utils.js";
+import {
+  readFromLS,
+  writeToLS,
+  editProfile,
+  CHECK_INTERVAL,
+  logOutTime,
+  logoutInvalidSession,
+} from "../Utils/utils.js";
 
 let users = readFromLS("users") || [];
 const loggedUsers = readFromLS("loggedUser") || {};
@@ -6,7 +13,12 @@ const clsBtn = document.getElementById("clsBtn");
 clsBtn.addEventListener("click", () => {
   window.location.assign("../Homepage/homepage.html");
 });
-
+const sessionChceckInterval = setInterval(() => {
+  logoutInvalidSession(loggedUsers);
+}, CHECK_INTERVAL);
+if (logOutTime(loggedUsers)) {
+  clearInterval(sessionChceckInterval);
+}
 const themeBtn = document.querySelector("#sliderToggle");
 
 const toggleTxt = document.querySelector(".toggleTxt");

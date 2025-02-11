@@ -3,63 +3,13 @@ console.log("Logged in user script loaded!");
 
 const navbar = document.querySelector(".navbar");
 
-const newMenus = ["add Flat", "view All Flats", "view My Flats", "profile"];
-
-// myProfile.addEventListener("click", () => {
-//   window.location.assign("../MyProfile/myProfile.html");
-// });
-
-// newMenus.forEach((name) => {
-//   const newDiv = document.createElement("div");
-//   newDiv.textContent = name;
-//   const camelCaseClass = name
-//     .split(" ")
-//     .map((word, index) =>
-//       index === 0
-//         ? word.toLowerCase()
-//         : word.charAt(0).toUpperCase() + word.slice(1)
-//     )
-//     .join("");
-//   newDiv.classList.add(camelCaseClass);
-//   const id = `${camelCaseClass}Btn`;
-//   newDiv.id = id;
-//   if (name === "profile") {
-//     const dropdown = document.createElement("div");
-//     dropdown.classList.add("dropdown");
-
-//     const dropdownItems = [
-//       "myProfile",
-//       "messages",
-//       "myFlats",
-//       "allFlats",
-//       "settings",
-//       "logOut",
-//     ];
-//     dropdownItems.forEach((item) => {
-//       const dropdownDiv = document.createElement("div");
-//       dropdownDiv.textContent = item;
-//       dropdownDiv.classList.add("dropdown-item");
-//       dropdownDiv.id = item;
-//       dropdown.appendChild(dropdownDiv);
-//     });
-
-//     newDiv.appendChild(dropdown);
-
-//     newDiv.addEventListener("mouseenter", () => {
-//       dropdown.style.maxHeight = "400px";
-//       dropdown.style.opacity = "1";
-//     });
-//     newDiv.addEventListener("mouseleave", () => {
-//       dropdown.style.maxHeight = "0";
-//       dropdown.style.opacity = "0";
-//     });
-//   }
-
-//   navbar.appendChild(newDiv);
-// });
+const newMenus = ["add Flat", "view My Flats", "profile"];
+function toTitleCase(str) {
+  return str.replace(/\b\w/g, (char) => char.toUpperCase());
+}
 newMenus.forEach((name) => {
   const newDiv = document.createElement("div");
-  newDiv.textContent = name;
+  newDiv.textContent = toTitleCase(name);
   const camelCaseClass = name
     .split(" ")
     .map((word, index) =>
@@ -72,7 +22,7 @@ newMenus.forEach((name) => {
   const id = `${camelCaseClass}Btn`;
   newDiv.id = id;
 
-  if (name === "profile") {
+  if (newDiv.id === "profileBtn") {
     const dropdown = document.createElement("div");
     dropdown.classList.add("dropdown");
     dropdown.id = "dropdownBtn";
@@ -81,7 +31,6 @@ newMenus.forEach((name) => {
       "myProfile",
       "messages",
       "myFlats",
-      "allFlats",
       "settings",
       "logOut",
     ];
@@ -95,13 +44,12 @@ newMenus.forEach((name) => {
 
     newDiv.appendChild(dropdown);
 
-    // Toggle Dropdown on Click Instead of Hover
+    //dropdown menu
     newDiv.addEventListener("click", (event) => {
-      event.stopPropagation(); // Prevents immediate closing when clicking on profile
+      event.stopPropagation(); // nu se inchide imediat dupa clik
       dropdown.classList.toggle("active");
     });
 
-    // Close Dropdown when Clicking Outside
     document.addEventListener("click", (event) => {
       if (!newDiv.contains(event.target)) {
         dropdown.classList.remove("active");
@@ -111,6 +59,15 @@ newMenus.forEach((name) => {
 
   navbar.appendChild(newDiv);
 });
+
+const addFlat = document.getElementById("addFlatBtn");
+addFlat.innerText = "Add New Flat";
+
+const myFlats = document.getElementById("viewMyFlatsBtn");
+myFlats.innerText = "My Flats";
+
+// const profileX = document.getElementById("profileBtn");
+// profileX.innerText = "My Profile";
 
 const logOutBtn = document.getElementById("logOut");
 
@@ -128,7 +85,7 @@ myProfile.addEventListener("click", () => {
 const body = document.getElementById("container");
 const addNewFlat = document.getElementById("addFlatBtn");
 
-// Helper function to generate a unique ID
+// Generate flat ID
 function generateUniqueId() {
   // Example: 'flat_kg8t2u5kq_382'
   // - Date.now().toString(36) gives a base-36 timestamp
@@ -141,7 +98,7 @@ function generateUniqueId() {
   );
 }
 
-// Helper function to convert file to Base64
+// Base64 function
 function convertToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -152,12 +109,10 @@ function convertToBase64(file) {
 }
 
 addNewFlat.addEventListener("click", () => {
-  // Create a modal container
   const modal = document.createElement("div");
   modal.id = "modalCard";
   modal.classList.add("modalNewFlat");
 
-  // Create modal content
   const modalContent = document.createElement("div");
   modalContent.classList.add("modal-content");
 
@@ -207,18 +162,14 @@ addNewFlat.addEventListener("click", () => {
     </form>
   `;
 
-  // Append modal content to modal
   modal.appendChild(modalContent);
 
-  // Append modal to body
   document.body.appendChild(modal);
 
-  // Handle modal close
   document.getElementById("closeModal").addEventListener("click", () => {
     document.body.removeChild(modal);
   });
 
-  // Handle form submission
   document.getElementById("flatForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 

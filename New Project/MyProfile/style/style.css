@@ -48,6 +48,10 @@ body form {
   display: flex;
   flex-direction: column;
 }
+body form .accountSettings {
+  text-align: center;
+  margin-top: 5px;
+}
 body label {
   margin-top: 10px;
   font-weight: bolder;

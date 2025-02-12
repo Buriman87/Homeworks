@@ -87,6 +87,46 @@ body {
   width: 100%;
   min-height: 90vh;
   background-color: yellow;
+  flex-direction: column;
+  .firstPart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    .sortBtn,
+    .filterBtn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 500;
+      select {
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        cursor: pointer;
+        transition: 0.3s ease;
+        select:hover {
+          border-color: #007bff;
+        }
+      }
+      input[type="text"] {
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 150px;
+        transition: 0.3s ease;
+        input[type="text"]:focus {
+          border-color: #007bff;
+          outline: none;
+        }
+      }
+    }
+  }
 
   .card-carousel {
     display: flex;
@@ -633,5 +673,12 @@ body {
 
   .flat-card {
     padding: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .firstPart {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

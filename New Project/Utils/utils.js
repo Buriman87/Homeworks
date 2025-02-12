@@ -14,7 +14,7 @@ const removeFromLS = (key) => {
   return false;
 };
 
-const sessionTimeOut = 1 * 10 * 1000; //minut x secunda x milisecunda
+const sessionTimeOut = 100000 * 10 * 1000; //minut x secunda x milisecunda
 const CHECK_INTERVAL = 5 * 1000;
 
 class UserData {
@@ -26,7 +26,8 @@ class UserData {
     lastName,
     dateOfBirth,
     secretWord,
-    phoneNumber
+    phoneNumber,
+    isActive
   ) {
     (this.email = email),
       (this.username = username),
@@ -36,7 +37,8 @@ class UserData {
       (this.firstName = firstName),
       (this.lastName = lastName),
       (this.dateOfBirth = dateOfBirth),
-      (this.userId = crypto.randomUUID());
+      (this.userId = crypto.randomUUID()),
+      (this.isActive = isActive);
   }
   updateLoginTime = () => {
     this.loginTime = Date.now();

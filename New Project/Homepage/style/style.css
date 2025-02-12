@@ -81,6 +81,50 @@ body {
   width: 100%;
   min-height: 90vh;
   background-color: yellow;
+  flex-direction: column;
+}
+.containerClass .firstPart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.containerClass .firstPart .sortBtn,
+.containerClass .firstPart .filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.containerClass .firstPart .sortBtn select,
+.containerClass .firstPart .filterBtn select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.containerClass .firstPart .sortBtn select select:hover,
+.containerClass .firstPart .filterBtn select select:hover {
+  border-color: #007bff;
+}
+.containerClass .firstPart .sortBtn input[type=text],
+.containerClass .firstPart .filterBtn input[type=text] {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 150px;
+  transition: 0.3s ease;
+}
+.containerClass .firstPart .sortBtn input[type=text] input[type=text]:focus,
+.containerClass .firstPart .filterBtn input[type=text] input[type=text]:focus {
+  border-color: #007bff;
+  outline: none;
 }
 .containerClass .card-carousel {
   display: flex;
@@ -604,5 +648,11 @@ body {
   }
   .flat-card {
     padding: 0.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .firstPart {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }/*# sourceMappingURL=style.css.map */

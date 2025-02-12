@@ -67,7 +67,8 @@ registerBtn.addEventListener("click", (e) => {
     lastNameInput,
     dateOfBirthInput,
     btoa(secretWordInput),
-    phoneInput
+    phoneInput,
+    true
   );
   user.registrationDate = Date.now();
   users.push(user);

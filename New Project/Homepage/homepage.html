@@ -28,12 +28,25 @@
     </div>
     <div class="containerClass" id="container">
       <div class="firstPart" id="firstPartDiv">
-        <select id="sortOptions">
-          <option value="">Sort By</option>
-          <option value="city">City</option>
-          <option value="rentPrice">Rent Price</option>
-          <option value="areaSize">Area Size</option>
-        </select>
+        <div class="sortBtn">
+          Sort by:
+          <select id="sortOptions">
+            <option value="">Sort By</option>
+            <option value="city">City</option>
+            <option value="rentPrice">Rent Price</option>
+            <option value="areaSize">Area Size</option>
+          </select>
+        </div>
+        <div class="filterBtn">
+          Filter by:
+          <select id="filterOptions">
+            <option value="">Filter By</option>
+            <option value="city">City</option>
+            <option value="rentPrice">Rent Price</option>
+            <option value="areaSize">Area Size</option>
+          </select>
+          <input type="text" class="filterInput" id="filterInputField" />
+        </div>
       </div>
       <div class="card-carousel">
         <div class="scrollBtn">

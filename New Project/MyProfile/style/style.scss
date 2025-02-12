@@ -47,6 +47,10 @@ body {
   form {
     display: flex;
     flex-direction: column;
+    .accountSettings {
+      text-align: center;
+      margin-top: 5px;
+    }
   }
   label {
     margin-top: 10px;

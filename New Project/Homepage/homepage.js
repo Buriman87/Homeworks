@@ -17,7 +17,7 @@ setInterval(() => {
   logoutInvalidSession(loggedUser);
 }, CHECK_INTERVAL);
 
-function renderFlatCards() {
+function renderFlatCards(filteredFlats = null) {
   const cardContainer = document.getElementById("cardContainer");
   if (!cardContainer) {
     console.error("No #cardContainer found in DOM.");
@@ -26,7 +26,8 @@ function renderFlatCards() {
 
   cardContainer.innerHTML = "";
 
-  const flats = JSON.parse(localStorage.getItem("flats")) || [];
+  const flats =
+    filteredFlats || JSON.parse(localStorage.getItem("flats")) || [];
   const users = JSON.parse(localStorage.getItem("users")) || [];
 
   flats.forEach((flat, index) => {
@@ -247,6 +248,43 @@ function setupCardPagination(totalFlats) {
     }
   };
 }
+
+function getFlatsFromStorage() {
+  return JSON.parse(localStorage.getItem("flats")) || [];
+}
+
+function filterFlats() {
+  let flats = getFlatsFromStorage();
+
+  const filterCriteria = document.getElementById("filterOptions").value;
+  const filterValue = document
+    .getElementById("filterInputField")
+    .value.toLowerCase()
+    .trim();
+
+  if (!filterCriteria || !filterValue) {
+    renderFlatCards(flats); // Show all if no criteria or input
+    return;
+  }
+
+  const filteredFlats = flats.filter((flat) => {
+    let flatValue = flat[filterCriteria];
+
+    // Convert numbers to string for filtering comparison
+    if (typeof flatValue === "number") {
+      flatValue = flatValue.toString();
+    }
+
+    return flatValue.toLowerCase().includes(filterValue);
+  });
+
+  renderFlatCards(filteredFlats); // 🔥 Now updates the UI properly
+}
+
+// Event Listener for filtering on keypress
+document
+  .getElementById("filterInputField")
+  .addEventListener("keyup", filterFlats);
 
 // Detect screen size changes
 window.addEventListener("resize", updateCardsPerPage);

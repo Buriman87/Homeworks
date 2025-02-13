@@ -1,4 +1,5 @@
 import { removeFromLS, readFromLS } from "../Utils/utils.js";
+import { renderFlatCards } from "../Homepage/homepage.js";
 console.log("Logged in user script loaded!");
 
 const navbar = document.querySelector(".navbar");
@@ -216,3 +217,136 @@ addNewFlat.addEventListener("click", () => {
     window.location.assign("../Homepage/homepage.html");
   });
 });
+
+function displayFlatsSection() {
+  console.log("🔹 Running displayFlatsSection()...");
+
+  // Locate the card-carousel div
+  const cardCarousel = document.querySelector(".card-carousel");
+
+  if (!cardCarousel) {
+    console.error("❌ card-carousel container not found.");
+    return;
+  }
+
+  // Remove existing card-viewport
+  const oldFlatsContainer = document.querySelector(".card-viewport");
+  if (oldFlatsContainer) {
+    console.log("🔹 Removing old flats container...");
+    oldFlatsContainer.remove();
+  }
+
+  // Remove existing flatsSection if it exists
+  const existingSection = document.getElementById("flatsSection");
+  if (existingSection) {
+    console.log("🔹 Removing old flats section...");
+    existingSection.remove();
+  }
+
+  // Create the main container
+  const flatsSection = document.createElement("div");
+  flatsSection.id = "flatsSection";
+  flatsSection.classList.add("flats-container");
+
+  // Create toggle buttons container
+  const toggleContainer = document.createElement("div");
+  toggleContainer.classList.add("toggle-container");
+
+  console.log("🔹 Creating toggle buttons...");
+
+  const myFlatsBtn = document.createElement("button");
+  myFlatsBtn.textContent = "My Flats";
+  myFlatsBtn.classList.add("toggle-btn");
+  myFlatsBtn.id = "myFlatsToggle";
+
+  const favoriteFlatsBtn = document.createElement("button");
+  favoriteFlatsBtn.textContent = "Favorite Flats";
+  favoriteFlatsBtn.classList.add("toggle-btn");
+  favoriteFlatsBtn.id = "favoriteFlatsToggle";
+
+  toggleContainer.appendChild(myFlatsBtn);
+  toggleContainer.appendChild(favoriteFlatsBtn);
+  flatsSection.appendChild(toggleContainer);
+
+  // Create a container for the flat cards (empty initially)
+  const cardContainer = document.createElement("div");
+  cardContainer.id = "cardContainer";
+  cardContainer.classList.add("card-container");
+  flatsSection.appendChild(cardContainer);
+
+  console.log("🔹 Appending flatsSection to card-carousel...");
+  cardCarousel.appendChild(flatsSection); // 🔥 Now added inside the correct div
+
+  console.log("✅ Toggle buttons should now be displayed, but no flats yet.");
+
+  // Toggle event listeners
+  myFlatsBtn.addEventListener("click", () => {
+    console.log("🔹 My Flats button clicked");
+    myFlatsBtn.classList.add("active");
+    favoriteFlatsBtn.classList.remove("active");
+    renderUserFlats(); // Load flats added by the user
+  });
+
+  favoriteFlatsBtn.addEventListener("click", () => {
+    console.log("🔹 Favorite Flats button clicked");
+    favoriteFlatsBtn.classList.add("active");
+    myFlatsBtn.classList.remove("active");
+    renderFavoriteFlats(); // Load flats marked as favorite
+  });
+
+  console.log(
+    "✅ Toggle buttons should be working, but no flats displayed until user selects."
+  );
+}
+
+// Function to render flats added by the logged-in user
+function renderUserFlats() {
+  console.log("🔹 Loading user flats...");
+  const loggedUser = readFromLS("loggedUser");
+  const flats = readFromLS("flats") || [];
+
+  if (!loggedUser || !loggedUser.userId) {
+    console.error("❌ No logged-in user found.");
+    return;
+  }
+
+  // Filter flats added by the logged user
+  const userFlats = flats.filter(
+    (flat) => String(flat.userID) === String(loggedUser.userId)
+  );
+
+  console.log("✅ Flats added by user:", userFlats);
+
+  // Render flats
+  renderFlatCards(userFlats);
+}
+
+// Function to render flats favorited by the logged-in user
+function renderFavoriteFlats() {
+  console.log("🔹 Loading favorite flats...");
+  const loggedUser = readFromLS("loggedUser");
+  const flats = readFromLS("flats") || [];
+
+  if (!loggedUser || !loggedUser.userId) {
+    console.error("❌ No logged-in user found.");
+    return;
+  }
+
+  // Filter flats that contain loggedUser's ID in their favorites array
+  const favoriteFlats = flats.filter((flat) =>
+    flat.favorites.includes(loggedUser.userId)
+  );
+
+  console.log("✅ Favorite flats:", favoriteFlats);
+
+  // Render flats
+  renderFlatCards(favoriteFlats);
+}
+
+// Attach event listeners to both "View My Flats" buttons
+document
+  .getElementById("viewMyFlatsBtn")
+  .addEventListener("click", displayFlatsSection);
+document
+  .getElementById("myFlats")
+  .addEventListener("click", displayFlatsSection);

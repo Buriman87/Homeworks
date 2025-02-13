@@ -17,6 +17,68 @@ setInterval(() => {
   logoutInvalidSession(loggedUser);
 }, CHECK_INTERVAL);
 
+const logo = document.getElementById("logoIcon");
+const reloadPage = logo.addEventListener("click", () => {
+  window.location.assign("../Homepage/homepage.html");
+});
+
+// function renderFlatCards(filteredFlats = null) {
+//   const cardContainer = document.getElementById("cardContainer");
+//   if (!cardContainer) {
+//     console.error("No #cardContainer found in DOM.");
+//     return;
+//   }
+
+//   cardContainer.innerHTML = "";
+
+//   const flats =
+//     filteredFlats || JSON.parse(localStorage.getItem("flats")) || [];
+//   const users = JSON.parse(localStorage.getItem("users")) || [];
+
+//   flats.forEach((flat, index) => {
+//     const card = document.createElement("div");
+//     card.classList.add("flat-card");
+
+//     // Image Container
+//     if (flat.uploadImg) {
+//       const imgContainer = document.createElement("div");
+//       imgContainer.classList.add("flat-image-container");
+
+//       const img = document.createElement("img");
+//       img.src = flat.uploadImg;
+//       img.alt = flat.shortName || "Flat Image";
+//       img.classList.add("flat-image");
+
+//       // Add click event to open modal
+//       img.addEventListener("click", (event) => {
+//         event.stopPropagation(); // Prevent accidental propagation
+//         openFlatModal(index);
+//       });
+
+//       imgContainer.appendChild(img);
+//       card.appendChild(imgContainer);
+//     }
+
+//     // Details Container
+//     const detailsContainer = document.createElement("div");
+//     detailsContainer.classList.add("flat-details");
+
+//     detailsContainer.innerHTML = `
+//       <p><strong>Description:</strong> <span>${flat.shortName}</span></p>
+//       <p><strong>City:</strong> <span>${flat.city}</span></p>
+//       <p><strong>Street:</strong> <span>${flat.street}</span></p>
+//       <p><strong>Available from:</strong> <span>${flat.availableFrom}</span></p>
+//       <p><strong>Price:</strong> <span>${
+//         Object.keys(loggedUser).length > 0 ? flat.rentPrice + " €" : "•••• €"
+//       }</span></p>
+//     `;
+
+//     card.appendChild(detailsContainer);
+//     cardContainer.appendChild(card);
+//   });
+
+//   setupCardPagination(flats.length);
+// }
 function renderFlatCards(filteredFlats = null) {
   const cardContainer = document.getElementById("cardContainer");
   if (!cardContainer) {
@@ -30,7 +92,7 @@ function renderFlatCards(filteredFlats = null) {
     filteredFlats || JSON.parse(localStorage.getItem("flats")) || [];
   const users = JSON.parse(localStorage.getItem("users")) || [];
 
-  flats.forEach((flat, index) => {
+  flats.forEach((flat) => {
     const card = document.createElement("div");
     card.classList.add("flat-card");
 
@@ -44,10 +106,10 @@ function renderFlatCards(filteredFlats = null) {
       img.alt = flat.shortName || "Flat Image";
       img.classList.add("flat-image");
 
-      // Add click event to open modal
+      // Add click event to open modal with the correct ID
       img.addEventListener("click", (event) => {
         event.stopPropagation(); // Prevent accidental propagation
-        openFlatModal(index);
+        openFlatModal(flat.id); // 🔥 Pass the correct Flat ID instead of index
       });
 
       imgContainer.appendChild(img);
@@ -75,25 +137,118 @@ function renderFlatCards(filteredFlats = null) {
   setupCardPagination(flats.length);
 }
 
-function openFlatModal(flatIndex) {
-  console.log(flatIndex);
+// function openFlatModal(flatIndex) {
+//   console.log(flatIndex);
+//   const flats = JSON.parse(localStorage.getItem("flats")) || [];
+//   const users = JSON.parse(localStorage.getItem("users")) || [];
+//   const selectedFlat = flats[flatIndex];
+
+//   if (!selectedFlat) {
+//     console.error("Flat not found.");
+//     return;
+//   }
+
+//   //finds the owner of the flat
+//   const owner = users.find((user) => user.id === selectedFlat.userId);
+
+//   // Remove existing modal if present
+//   const existingModal = document.getElementById("flatModal");
+//   if (existingModal) {
+//     existingModal.remove();
+//   }
+
+//   // Create modal HTML
+//   const modalHTML = `
+//       <div id="flatModal" class="modal">
+//           <div class="modal-content">
+//               <span class="close-modal">Close</span>
+//               <div class="favorite-container">
+//                   <span class="material-symbols-outlined favorite-icon" id="favIcon" data-flat-id="">favorite</span>
+//               </div>
+//               <h2>${selectedFlat.shortName}</h2>
+//               <img src="${
+//                 selectedFlat.uploadImg
+//               }" alt="Flat Image" class="modal-image">
+//               <p><strong>City:</strong> ${selectedFlat.city}</p>
+//               <p><strong>Street:</strong> ${selectedFlat.street}</p>
+//               <p><strong>Street Number:</strong> ${
+//                 selectedFlat.streetNumber
+//               }</p>
+//               <p><strong>Available from:</strong> ${
+//                 selectedFlat.availableFrom
+//               }</p>
+//               <p><strong>Price:</strong> ${selectedFlat.rentPrice} €</p>
+//               <p><strong>Area Size:</strong> ${selectedFlat.areaSize} m²</p>
+//               <p><strong>AC:</strong> ${selectedFlat.ac ? "Yes" : "No"}</p>
+//               <p><strong>Year Built:</strong> ${selectedFlat.yearBuilt}</p>
+//               <hr>
+//               <h3>Owner Information</h3>
+//               <p><strong>Name:</strong> ${
+//                 owner ? owner.firstName + " " + owner.lastName : "Not available"
+//               }</p>
+//               <p><strong>Email:</strong> ${
+//                 owner ? owner.email : "Not available"
+//               }</p>
+//               <p><strong>Phone:</strong> ${
+//                 owner ? owner.phoneNumber : "Not available"
+//               }</p>
+//           </div>
+//       </div>
+//   `;
+
+//   // Insert modal into body
+//   document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+//   const modal = document.getElementById("flatModal");
+//   modal.style.display = "block";
+
+//   // Close modal event
+//   document.querySelector(".close-modal").addEventListener("click", () => {
+//     modal.remove();
+//   });
+
+//   window.addEventListener("click", (event) => {
+//     if (event.target === modal) {
+//       modal.remove();
+//     }
+//   });
+//   function setupFavoriteButtons() {
+//     document.querySelectorAll(".favorite-icon").forEach((button) => {
+//       button.addEventListener("click", (event) => {
+//         event.stopPropagation(); // Prevents event bubbling if inside another clickable element
+//         const flats = readFromLS("flats");
+//         toggleFavorite(flats[flatIndex].id);
+//       });
+//     });
+//   }
+
+//   setupFavoriteButtons();
+// }
+
+// Pagination Variables
+function openFlatModal(flatId) {
+  console.log(`🔹 Opening modal for flat ID: ${flatId}`);
+
   const flats = JSON.parse(localStorage.getItem("flats")) || [];
   const users = JSON.parse(localStorage.getItem("users")) || [];
-  const selectedFlat = flats[flatIndex];
+
+  // Find the correct flat by ID
+  const selectedFlat = flats.find((flat) => flat.id === flatId);
 
   if (!selectedFlat) {
-    console.error("Flat not found.");
+    console.error("❌ Flat not found.");
     return;
   }
 
-  //finds the owner of the flat
-  const owner = users.find((user) => user.id === selectedFlat.userId);
-
-  // Remove existing modal if present
+  // Remove any existing modal before creating a new one
   const existingModal = document.getElementById("flatModal");
   if (existingModal) {
+    console.log("🔹 Removing existing modal...");
     existingModal.remove();
   }
+
+  // Find the owner of the flat
+  const owner = users.find((user) => user.id === selectedFlat.userId);
 
   // Create modal HTML
   const modalHTML = `
@@ -101,7 +256,9 @@ function openFlatModal(flatIndex) {
           <div class="modal-content">
               <span class="close-modal">Close</span>
               <div class="favorite-container">
-                  <span class="material-symbols-outlined favorite-icon" id="favIcon" data-flat-id="">favorite</span>
+                  <span class="material-symbols-outlined favorite-icon" id="favIcon" data-flat-id="${
+                    selectedFlat.id
+                  }">favorite</span>
               </div>
               <h2>${selectedFlat.shortName}</h2>
               <img src="${
@@ -150,20 +307,8 @@ function openFlatModal(flatIndex) {
       modal.remove();
     }
   });
-  function setupFavoriteButtons() {
-    document.querySelectorAll(".favorite-icon").forEach((button) => {
-      button.addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevents event bubbling if inside another clickable element
-        const flats = readFromLS("flats");
-        toggleFavorite(flats[flatIndex].id);
-      });
-    });
-  }
-
-  setupFavoriteButtons();
 }
 
-// Pagination Variables
 let currentPage = 0;
 let CARDS_PER_PAGE = 8;
 
@@ -292,3 +437,5 @@ window.addEventListener("DOMContentLoaded", () => {
   renderFlatCards();
   updateCardsPerPage();
 });
+
+export { renderFlatCards };

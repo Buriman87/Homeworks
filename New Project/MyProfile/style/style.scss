@@ -5,9 +5,9 @@
   box-sizing: border-box;
 }
 .darkMode {
-  background-color: $dark-bg;
+  background-color: $background-dark;
   .container {
-    background-color: $dark-bg;
+    background-color: $background-dark;
   }
   label {
     color: $dark-text;
@@ -29,12 +29,12 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: $light-bg;
+  background-color: $background-light;
   .container {
     max-width: 500px;
     margin: 20px auto;
     padding: 10px;
-    background-color: $light-form-color;
+    background-color: $background-light;
     border: 1px solid #90caf9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -92,7 +92,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 5px 20px;
-    background-color: #0d47a1; /* Dark Blue */
+    background-color: $navbarFooter;
     color: white;
     /* Container for the toggle */
     .toggleTheme {

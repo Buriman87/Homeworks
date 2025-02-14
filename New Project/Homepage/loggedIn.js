@@ -3,6 +3,7 @@ import { renderFlatCards } from "../Homepage/homepage.js";
 console.log("Logged in user script loaded!");
 
 const navbar = document.querySelector(".navbar");
+const actionBtns = document.getElementById("actionBtn");
 
 const newMenus = ["add Flat", "view My Flats", "profile"];
 function toTitleCase(str) {
@@ -58,7 +59,7 @@ newMenus.forEach((name) => {
     });
   }
 
-  navbar.appendChild(newDiv);
+  actionBtns.appendChild(newDiv);
 });
 
 const addFlat = document.getElementById("addFlatBtn");

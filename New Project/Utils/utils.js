@@ -14,7 +14,7 @@ const removeFromLS = (key) => {
   return false;
 };
 
-const sessionTimeOut = 100000 * 10 * 1000; //minut x secunda x milisecunda
+const sessionTimeOut = 1000000 * 10 * 1000; //minut x secunda x milisecunda
 const CHECK_INTERVAL = 5 * 1000;
 
 class UserData {

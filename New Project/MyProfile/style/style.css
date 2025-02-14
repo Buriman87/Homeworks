@@ -5,36 +5,36 @@
 }
 
 .darkMode {
-  background-color: #161925;
+  background-color: #36373d;
 }
 .darkMode .container {
-  background-color: #161925;
+  background-color: #36373d;
 }
 .darkMode label {
-  color: #FFFFFA;
+  color: #fffffa;
 }
 .darkMode input {
-  background-color: #23395B;
-  color: #FFFFFA;
+  background-color: #23395b;
+  color: #fffffa;
 }
 .darkMode button {
-  background-color: #406E8E;
+  background-color: #406e8e;
 }
 .darkMode div p {
-  color: #FFFFFA;
+  color: #fffffa;
 }
 
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #CBF7ED;
+  background-color: #faf9f9;
 }
 body .container {
   max-width: 500px;
   margin: 20px auto;
   padding: 10px;
-  background-color: #78CDD7;
+  background-color: #faf9f9;
   border: 1px solid #90caf9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -42,7 +42,7 @@ body .container {
 body .container h1 {
   text-align: center;
   text-transform: uppercase;
-  color: #23395B;
+  color: #23395b;
 }
 body form {
   display: flex;
@@ -55,7 +55,7 @@ body form .accountSettings {
 body label {
   margin-top: 10px;
   font-weight: bolder;
-  color: #23395B;
+  color: #23395b;
 }
 body label div {
   display: none;
@@ -74,25 +74,25 @@ body button {
 }
 body input,
 body select {
-  background-color: #CBF7ED;
-  color: #23395B;
+  background-color: #cbf7ed;
+  color: #23395b;
 }
 body button {
   margin-top: 15px;
   cursor: pointer;
-  background-color: #23395B;
-  color: #CBF7ED;
+  background-color: #23395b;
+  color: #cbf7ed;
   border: none;
 }
 body button:hover {
-  background-color: #8EA8C3;
-  color: #CBF7ED;
+  background-color: #8ea8c3;
+  color: #cbf7ed;
 }
 body .top-buttons {
   display: flex;
   justify-content: space-between;
   padding: 5px 20px;
-  background-color: #0d47a1; /* Dark Blue */
+  background-color: #41716f;
   color: white;
   /* Container for the toggle */
   /* Hide default checkbox */

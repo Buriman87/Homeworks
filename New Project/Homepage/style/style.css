@@ -7,7 +7,15 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f8f8f8;
+  background-color: #7fc5ee;
+}
+
+.favDiv {
+  background-color: rgba(255, 0, 0, 0.531);
+  text-align: center;
+  width: 100%;
+  color: #cbd7ec;
+  text-transform: capitalize;
 }
 
 /* 🔹 Navbar Styling */
@@ -89,7 +97,7 @@ body {
   justify-content: center;
   width: 100%;
   min-height: 90vh;
-  background-color: #faf9f9;
+  background-color: #7fc5ee;
   flex-direction: column;
 }
 .containerClass .firstPart {

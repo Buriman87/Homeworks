@@ -8,9 +8,15 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f8f8f8;
+  background-color: $background-light;
 }
-
+.favDiv {
+  background-color: rgba(255, 0, 0, 0.531);
+  text-align: center;
+  width: 100%;
+  color: $button-text;
+  text-transform: capitalize;
+}
 /* 🔹 Navbar Styling */
 .navbar {
   width: 100%;

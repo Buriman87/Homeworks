@@ -5,23 +5,23 @@
   box-sizing: border-box;
 }
 .darkMode {
-  background-color: $dark-bg;
+  background-color: $background-dark;
   .container {
-    background-color: $dark-bg;
+    background-color: $background-dark;
   }
   label {
-    color: $dark-text;
+    color: $text-dark;
   }
   input {
-    background-color: $dark-button-pcolor;
-    color: $dark-text;
+    background-color: $text-dark;
+    color: $text-dark;
   }
   button {
-    background-color: $dark-button-scolor;
+    background-color: $button;
   }
   div {
     p {
-      color: $dark-text;
+      color: $text-dark;
     }
   }
 }
@@ -29,29 +29,30 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: $light-bg;
+  background-color: $background-light;
   .container {
     max-width: 500px;
     margin: 20px auto;
     padding: 10px;
-    background-color: $light-form-color;
+    background-color: $form-color-light;
     border: 1px solid #90caf9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     h1 {
       text-align: center;
       text-transform: uppercase;
-      color: $light-text;
+      color: $text-light;
     }
   }
   form {
     display: flex;
     flex-direction: column;
+    color: $form-color-light;
   }
   label {
     margin-top: 10px;
     font-weight: bolder;
-    color: $light-text;
+    color: $text-light;
     div {
       display: none;
     }
@@ -71,18 +72,18 @@ body {
   input,
   select {
     background-color: $light-input-color;
-    color: $light-text;
+    color: $text-light;
   }
   button {
     margin-top: 15px;
     cursor: pointer;
-    background-color: $light-button-scolor;
-    color: $light-input-color;
+    background-color: $button;
+    color: $button-text;
     border: none;
   }
   button:hover {
-    background-color: $light-button-pcolor;
-    color: $light-bg;
+    background-color: $button-hover;
+    color: $button-text;
   }
   .top-buttons {
     display: flex;

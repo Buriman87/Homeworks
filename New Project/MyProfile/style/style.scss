@@ -34,14 +34,14 @@ body {
     max-width: 500px;
     margin: 20px auto;
     padding: 10px;
-    background-color: $background-light;
+    background-color: $form-color-light;
     border: 1px solid #90caf9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     h1 {
       text-align: center;
       text-transform: uppercase;
-      color: $light-text;
+      color: $text-light;
     }
   }
   form {
@@ -55,7 +55,7 @@ body {
   label {
     margin-top: 10px;
     font-weight: bolder;
-    color: $light-text;
+    color: $text-light;
     div {
       display: none;
     }
@@ -68,24 +68,24 @@ body {
   button {
     margin-top: 5px;
     padding: 10px;
-    border: 1px solid #90caf9;
+    border: 1px solid $button;
     border-radius: 4px;
     font-size: 16px;
   }
   input,
   select {
-    background-color: $light-input-color;
+    background-color: $button-text;
     color: $light-text;
   }
   button {
     margin-top: 15px;
     cursor: pointer;
-    background-color: $light-button-scolor;
-    color: $light-input-color;
+    background-color: $button;
+    color: $button-text;
     border: none;
   }
   button:hover {
-    background-color: $light-button-pcolor;
+    background-color: $button-hover;
     color: $light-bg;
   }
   .top-buttons {

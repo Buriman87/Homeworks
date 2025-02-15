@@ -5,36 +5,36 @@
 }
 
 .darkMode {
-  background-color: #161925;
+  background-color: #2a2a72;
 }
 .darkMode .container {
-  background-color: #161925;
+  background-color: #2a2a72;
 }
 .darkMode label {
-  color: #fffffa;
+  color: #cbd7ec;
 }
 .darkMode input {
-  background-color: #23395b;
-  color: #fffffa;
+  background-color: #cbd7ec;
+  color: #cbd7ec;
 }
 .darkMode button {
-  background-color: #406e8e;
+  background-color: #2a2a72;
 }
 .darkMode div p {
-  color: #fffffa;
+  color: #cbd7ec;
 }
 
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #cbf7ed;
+  background-color: #7fc5ee;
 }
 body .container {
   max-width: 500px;
   margin: 20px auto;
   padding: 10px;
-  background-color: #78cdd7;
+  background-color: #ffa400;
   border: 1px solid #90caf9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -42,16 +42,17 @@ body .container {
 body .container h1 {
   text-align: center;
   text-transform: uppercase;
-  color: #23395b;
+  color: #2a2a72;
 }
 body form {
   display: flex;
   flex-direction: column;
+  color: #ffa400;
 }
 body label {
   margin-top: 10px;
   font-weight: bolder;
-  color: #23395b;
+  color: #2a2a72;
 }
 body label div {
   display: none;
@@ -71,18 +72,18 @@ body button {
 body input,
 body select {
   background-color: #cbf7ed;
-  color: #23395b;
+  color: #2a2a72;
 }
 body button {
   margin-top: 15px;
   cursor: pointer;
-  background-color: #23395b;
-  color: #cbf7ed;
+  background-color: #2a2a72;
+  color: #cbd7ec;
   border: none;
 }
 body button:hover {
-  background-color: #8ea8c3;
-  color: #cbf7ed;
+  background-color: #1565b8;
+  color: #cbd7ec;
 }
 body .top-buttons {
   display: flex;

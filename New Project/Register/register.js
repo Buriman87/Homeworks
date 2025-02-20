@@ -8,6 +8,7 @@ import {
 const users = readFromLS("users") || [];
 const loggedUsers = readFromLS("loggedUser") || {};
 const clsBtn = document.getElementById("clsBtn");
+
 clsBtn.addEventListener("click", () => {
   window.location.assign("../Homepage/homepage.html");
 });

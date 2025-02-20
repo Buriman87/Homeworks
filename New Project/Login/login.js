@@ -20,7 +20,6 @@ loginBtn.addEventListener("click", (e) => {
 
   console.log(users);
 
-  // Find the user in the users array
   const userExist = users.find(
     (user) =>
       (user.username === username ||
@@ -29,14 +28,12 @@ loginBtn.addEventListener("click", (e) => {
       user.password === btoa(password)
   );
 
-  // If user exists but is inactive
   if (userExist && userExist.isActive === false) {
     alert("Your account is inactive. Please recover your account.");
-    window.location.assign("../Recover_password/recover_password.html"); // Redirect to homepage
+    window.location.assign("../Recover_password/recover_password.html");
     return;
   }
 
-  // If user exists and is active
   if (userExist) {
     alert("Login Successful!");
     userExist.loginTime = Date.now();

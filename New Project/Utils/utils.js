@@ -14,7 +14,7 @@ const removeFromLS = (key) => {
   return false;
 };
 
-const sessionTimeOut = 1000000 * 10 * 1000; //minut x secunda x milisecunda
+const sessionTimeOut = 100000 * 10 * 1000; //minut x secunda x milisecunda
 const CHECK_INTERVAL = 5 * 1000;
 
 class UserData {
@@ -246,11 +246,10 @@ const logoutInvalidSession = async (loggedUser) => {
       title: "Your session time has expired.",
       text: "Do you want to remain logged in?",
       showDenyButton: true,
-      // showCancelButton: true,
+
       confirmButtonText: "Yes",
       denyButtonText: `No`,
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         loggedUser.loginTime = loggedUser.loginTime + sessionTimeOut;
         location.reload();
@@ -259,20 +258,15 @@ const logoutInvalidSession = async (loggedUser) => {
         window.location.assign("../Login/login.html");
       }
     });
-    // removeFromLS("loggedUser");
-    // window.location.assign("../Login/login.html");
   }
 };
 
 function replaceScript(src, isModule = false) {
-  // Check if a script with the same src already exists
   const existingScript = document.querySelector(`script[src="${src}"]`);
   if (existingScript) {
-    // Remove the existing script
     existingScript.remove();
   }
 
-  // Create a new script element
   const script = document.createElement("script");
   script.src = src;
   script.defer = true;

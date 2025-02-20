@@ -36,8 +36,8 @@ recoverBtn.addEventListener("click", (e) => {
     return;
   }
   if (userExist) {
-    userExist.password = btoa(newPass); // Encrypt and update password
-    userExist.isActive = true; // ✅ Reactivate the user
+    userExist.password = btoa(newPass); 
+    userExist.isActive = true;
     userExist.loginTime = Date.now();
 
     alert("Your password has been reset. You can now log in!");

@@ -45,7 +45,7 @@ function renderFlatCards(filteredFlats = null) {
       favDiv.classList.add("favDiv");
       card.appendChild(favDiv);
     }
-    // Image Container
+
     if (flat.uploadImg) {
       const imgContainer = document.createElement("div");
       imgContainer.classList.add("flat-image-container");
@@ -55,17 +55,15 @@ function renderFlatCards(filteredFlats = null) {
       img.alt = flat.shortName || "Flat Image";
       img.classList.add("flat-image");
 
-      // Add click event to open modal with the correct ID
       img.addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevent accidental propagation
-        openFlatModal(flat.id); // 🔥 Pass the correct Flat ID instead of index
+        event.stopPropagation();
+        openFlatModal(flat.id);
       });
 
       imgContainer.appendChild(img);
       card.appendChild(imgContainer);
     }
 
-    // Details Container
     const detailsContainer = document.createElement("div");
     detailsContainer.classList.add("flat-details");
 
@@ -85,14 +83,13 @@ function renderFlatCards(filteredFlats = null) {
 
   setupCardPagination(flats.length);
 }
-// Pagination Variables
+
 function openFlatModal(flatId) {
   console.log(`🔹 Opening modal for flat ID: ${flatId}`);
 
   const flats = JSON.parse(localStorage.getItem("flats")) || [];
   const users = JSON.parse(localStorage.getItem("users")) || [];
 
-  // Find the correct flat by ID
   const selectedFlat = flats.find((flat) => flat.id === flatId);
 
   if (!selectedFlat) {
@@ -100,21 +97,18 @@ function openFlatModal(flatId) {
     return;
   }
 
-  // Remove any existing modal before creating a new one
   const existingModal = document.getElementById("flatModal");
   if (existingModal) {
     console.log("🔹 Removing existing modal...");
     existingModal.remove();
   }
 
-  // Find the owner of the flat
   const owner = users.find((user) => user.id === selectedFlat.userId);
 
   const isFavorite = selectedFlat.favorites.some(
     (el) => el === loggedUser.userId
   );
 
-  // Create modal HTML
   const modalHTML = `
       <div id="flatModal" class="modal">
           <div class="modal-content">
@@ -161,13 +155,11 @@ function openFlatModal(flatId) {
       </div>
   `;
 
-  // Insert modal into body
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 
   const modal = document.getElementById("flatModal");
   modal.style.display = "block";
 
-  // Close modal event
   document.querySelector(".close-modal").addEventListener("click", () => {
     modal.remove();
     renderFlatCards();
@@ -197,11 +189,11 @@ function updateCardsPerPage() {
   } else if (window.matchMedia("(max-width: 768px)").matches) {
     CARDS_PER_PAGE = 2;
   } else {
-    CARDS_PER_PAGE = 12;
+    CARDS_PER_PAGE = 8;
   }
   updateVisibleCards(document.querySelectorAll(".flat-card").length);
 }
-// Function to Show Only a Certain Number of Cards Per Page
+
 function updateVisibleCards(totalFlats) {
   const cardContainer = document.getElementById("cardContainer");
   const cards = cardContainer.querySelectorAll(".flat-card");
@@ -234,18 +226,17 @@ function sortFlats(criteria) {
   let flats = JSON.parse(localStorage.getItem("flats")) || [];
 
   if (criteria === "city") {
-    flats.sort((a, b) => a.city.localeCompare(b.city)); // Sort Alphabetically
+    flats.sort((a, b) => a.city.localeCompare(b.city));
   } else if (criteria === "rentPrice") {
-    flats.sort((a, b) => a.rentPrice - b.rentPrice); // Sort Numerically
+    flats.sort((a, b) => a.rentPrice - b.rentPrice);
   } else if (criteria === "areaSize") {
-    flats.sort((a, b) => a.areaSize - b.areaSize); // Sort Numerically
+    flats.sort((a, b) => a.areaSize - b.areaSize);
   }
 
-  localStorage.setItem("flats", JSON.stringify(flats)); // Update localStorage
-  renderFlatCards(); // Re-render flats
+  localStorage.setItem("flats", JSON.stringify(flats));
+  renderFlatCards();
 }
 
-// Pagination Setup
 function setupCardPagination(totalFlats) {
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
@@ -287,14 +278,13 @@ function filterFlats() {
     .trim();
 
   if (!filterCriteria || !filterValue) {
-    renderFlatCards(flats); // Show all if no criteria or input
+    renderFlatCards(flats);
     return;
   }
 
   const filteredFlats = flats.filter((flat) => {
     let flatValue = flat[filterCriteria];
 
-    // Convert numbers to string for filtering comparison
     if (typeof flatValue === "number") {
       flatValue = flatValue.toString();
     }
@@ -302,15 +292,13 @@ function filterFlats() {
     return flatValue.toLowerCase().includes(filterValue);
   });
 
-  renderFlatCards(filteredFlats); // 🔥 Now updates the UI properly
+  renderFlatCards(filteredFlats);
 }
 
-// Event Listener for filtering on keypress
 document
   .getElementById("filterInputField")
   .addEventListener("keyup", filterFlats);
 
-// Detect screen size changes
 window.addEventListener("resize", updateCardsPerPage);
 window.addEventListener("DOMContentLoaded", () => {
   renderFlatCards();

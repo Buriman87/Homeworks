@@ -1,5 +1,6 @@
 import {
   readFromLS,
+  removeFromLS,
   writeToLS,
   editProfile,
   CHECK_INTERVAL,
@@ -9,6 +10,10 @@ import {
 
 let users = readFromLS("users") || [];
 const loggedUsers = readFromLS("loggedUser") || {};
+
+if (!loggedUsers || Object.keys(loggedUsers).length === 0) { 
+  window.location.assign("../Homepage/homepage.html");
+}
 const clsBtn = document.getElementById("clsBtn");
 clsBtn.addEventListener("click", () => {
   window.location.assign("../Homepage/homepage.html");
@@ -104,79 +109,170 @@ resetPass.addEventListener("click", (e) => {
   window.location.assign("../Recover_password/recover_password.html");
 });
 
+// const deleteAccountBtn = document.getElementById("deleteUserBtn");
+// function deleteUserFlats() {
+//   // Get the logged-in user
+//   const loggedUser = readFromLS("loggedUser");
+//   let flats = readFromLS("flats") || [];
+
+//   if (!loggedUser || !loggedUser.userId) {
+//     console.error("No logged-in user found!");
+//     return;
+//   }
+
+//   // Find all flats added by the user
+//   const userFlats = flats.filter(
+//     (flat) => String(flat.userID) === String(loggedUser.userId)
+//   );
+
+//   if (userFlats.length > 0) {
+//     console.log("Flats to be deleted:", userFlats);
+//   } else {
+//     console.log("This user has not added any flats.");
+//   }
+//   // Remove user from favorite flats
+
+//   flats.forEach((flat) => {
+//     console.log(flat);
+//     flat.favorites = flat.favorites.filter((el) => el !== loggedUser.userId);
+//     console.log("se sterg fav");
+//   });
+
+//   // Remove user's flats from the flats array
+//   flats = flats.filter(
+//     (flat) => String(flat.userID) !== String(loggedUser.userId)
+//   );
+
+//   // Update local storage
+//   writeToLS("flats", flats);
+//   console.log("User's flats have been deleted successfully.");
+// }
+
+// deleteAccountBtn.addEventListener("click", (e) => {
+//   e.preventDefault();
+
+//   Swal.fire({
+//     title: "Are you sure you want to delete your account?",
+//     text: "You won't be able to revert this, and all the flats you added will be permanently removed!",
+//     icon: "warning",
+//     showCancelButton: true,
+//     confirmButtonColor: "#3085d6",
+//     cancelButtonColor: "#d33",
+//     confirmButtonText: "Yes, delete it!",
+//   }).then((result) => {
+//     if (result.isConfirmed) {
+//       // Delete flats added by the user
+//       deleteUserFlats();
+
+//       // Get logged-in user
+//       const loggedUser = readFromLS("loggedUser");
+//       if (!loggedUser || !loggedUser.userId) {
+//         Swal.fire("Error!", "No logged-in user found.", "error");
+//         return;
+//       }
+
+//       // Get all users and remove the logged-in user
+//       let users = readFromLS("users") || [];
+//       users = users.filter((user) => user.userId !== loggedUser.userId);
+
+//       // Update localStorage
+//       writeToLS("users", users); // Save updated users list
+//       removeFromLS("loggedUser"); // Remove logged user
+
+//       // Show success message and redirect
+//       Swal.fire({
+//         title: "Deleted!",
+//         text: "Your account and flats have been removed.",
+//         icon: "success",
+//       }).then(() => {
+//         window.location.assign("../Homepage/homepage.html"); // Redirect
+//       });
+//     }
+//   });
+// });
+
 const deleteAccountBtn = document.getElementById("deleteUserBtn");
-function deleteUserFlats() {
-  // Get the logged-in user
-  const loggedUser = readFromLS("loggedUser");
+
+function deleteUserFlats(userId) {
   let flats = readFromLS("flats") || [];
 
-  if (!loggedUser || !loggedUser.userId) {
-    console.error("No logged-in user found!");
+  if (!userId) {
+    console.error("No logged-in user ID found!");
     return;
   }
 
-  // Find all flats added by the user
-  const userFlats = flats.filter(
-    (flat) => String(flat.userID) === String(loggedUser.userId)
-  );
+  // Remove user's flats
+  flats = flats.filter((flat) => String(flat.userID) !== String(userId));
 
-  if (userFlats.length > 0) {
-    console.log("Flats to be deleted:", userFlats);
-  } else {
-    console.log("This user has not added any flats.");
-  }
-  // Remove user from favorite flats
-
+  // Remove user from favorites in other flats
   flats.forEach((flat) => {
-    console.log(flat);
-    flat.favorites = flat.favorites.filter((el) => el !== loggedUser.userId);
-    console.log("se sterg fav");
+    flat.favorites = flat.favorites.filter((favUserId) => favUserId !== userId);
   });
 
-  // Remove user's flats from the flats array
-  flats = flats.filter(
-    (flat) => String(flat.userID) !== String(loggedUser.userId)
-  );
-
-  // Update local storage
+  // Update localStorage
   writeToLS("flats", flats);
   console.log("User's flats have been deleted successfully.");
 }
 
-// Run this function when the delete button is clicked
 deleteAccountBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  deleteUserFlats(); // Delete only user's flats
+
+  Swal.fire({
+    title: "Are you sure you want to delete your account?",
+    text: "This action is permanent. All your flats and associated data will be removed.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Get logged-in user before removing it
+      const loggedUser = readFromLS("loggedUser");
+      if (!loggedUser || !loggedUser.userId) {
+        Swal.fire("Error!", "No logged-in user found.", "error");
+        return;
+      }
+      const userId = loggedUser.userId;
+
+      // Delete all flats added by the user
+      deleteUserFlats(userId);
+
+      // Remove user from users array
+      let users = readFromLS("users") || [];
+      users = users.filter((user) => user.userId !== userId);
+      writeToLS("users", users);
+
+      // Remove loggedUser from localStorage
+      removeFromLS("loggedUser");
+
+      // Show success message and redirect
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your account and associated flats have been removed.",
+        icon: "success",
+      }).then(() => {
+        window.location.assign("../Homepage/homepage.html"); // Redirect
+      });
+    }
+  });
 });
 
 const inactiveBtn = document.getElementById("inactivateAccount");
 function makeAccountInactive() {
-  // Get the logged-in user and users list
-  const loggedUser = readFromLS("loggedUser");
-  let users = readFromLS("users") || [];
-
-  if (!loggedUser || !loggedUser.userId) {
-    alert("No logged-in user found!");
-    return;
-  }
-
-  // Find the user in the users array and set isActive to false
-  users = users.map((user) => {
-    if (String(user.userId) === String(loggedUser.userId)) {
-      user.isActive = false; // Change isActive status
-    }
-    return user;
-  });
-
-  // Update local storage with the modified users list
-  writeToLS("users", users);
-
-  // Also update loggedUser's status
-  loggedUser.isActive = false;
-  writeToLS("loggedUser", loggedUser);
-
+  const updatedUser = users.find((user) => user.userId === loggedUser.userId);
+  updatedUser.isActive = false;
+  const updatedUsers = users.map((user) =>
+    user.userId === loggedUser.userId ? updatedUser : user
+  );
   alert("Your account has been set to inactive.");
+  writeToLS("users", updatedUsers);
+  removeFromLS("loggedUser");
+  window.location.assign("../Homepage/homepage.html");
 }
 
 // Attach event listener to the button
-inactiveBtn.addEventListener("click", makeAccountInactive);
+inactiveBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  makeAccountInactive();
+});

@@ -67,8 +67,7 @@ addFlat.innerText = "Add New Flat";
 const myFlats = document.getElementById("viewMyFlatsBtn");
 myFlats.innerText = "My Flats";
 
-// const profileX = document.getElementById("profileBtn");
-// profileX.innerText = "My Profile";
+
 
 const logOutBtn = document.getElementById("logOut");
 
@@ -217,24 +216,24 @@ addNewFlat.addEventListener("click", () => {
 });
 
 function displayFlatsSection() {
-  console.log("🔹 Running displayFlatsSection()...");
+
 
   const cardCarousel = document.querySelector(".card-carousel");
 
   if (!cardCarousel) {
-    console.error("❌ card-carousel container not found.");
+
     return;
   }
 
   const oldFlatsContainer = document.querySelector(".card-viewport");
   if (oldFlatsContainer) {
-    console.log("🔹 Removing old flats container...");
+
     oldFlatsContainer.remove();
   }
 
   const existingSection = document.getElementById("flatsSection");
   if (existingSection) {
-    console.log("🔹 Removing old flats section...");
+
     existingSection.remove();
   }
 
@@ -245,7 +244,7 @@ function displayFlatsSection() {
   const toggleContainer = document.createElement("div");
   toggleContainer.classList.add("toggle-container");
 
-  console.log("🔹 Creating toggle buttons...");
+
 
   const myFlatsBtn = document.createElement("button");
   myFlatsBtn.textContent = "My Flats";
@@ -266,37 +265,35 @@ function displayFlatsSection() {
   cardContainer.classList.add("card-container");
   flatsSection.appendChild(cardContainer);
 
-  console.log("🔹 Appending flatsSection to card-carousel...");
+
   cardCarousel.appendChild(flatsSection);
 
-  console.log("✅ Toggle buttons should now be displayed, but no flats yet.");
+
 
   myFlatsBtn.addEventListener("click", () => {
-    console.log("🔹 My Flats button clicked");
+
     myFlatsBtn.classList.add("active");
     favoriteFlatsBtn.classList.remove("active");
     renderUserFlats();
   });
 
   favoriteFlatsBtn.addEventListener("click", () => {
-    console.log("🔹 Favorite Flats button clicked");
+
     favoriteFlatsBtn.classList.add("active");
     myFlatsBtn.classList.remove("active");
     renderFavoriteFlats();
   });
 
-  console.log(
-    "✅ Toggle buttons should be working, but no flats displayed until user selects."
-  );
+
 }
 
 function renderUserFlats() {
-  console.log("🔹 Loading user flats...");
+
   const loggedUser = readFromLS("loggedUser");
   const flats = readFromLS("flats") || [];
 
   if (!loggedUser || !loggedUser.userId) {
-    console.error("❌ No logged-in user found.");
+
     return;
   }
 
@@ -304,18 +301,18 @@ function renderUserFlats() {
     (flat) => String(flat.userID) === String(loggedUser.userId)
   );
 
-  console.log("✅ Flats added by user:", userFlats);
+
 
   renderFlatCards(userFlats);
 }
 
 function renderFavoriteFlats() {
-  console.log("🔹 Loading favorite flats...");
+
   const loggedUser = readFromLS("loggedUser");
   const flats = readFromLS("flats") || [];
 
   if (!loggedUser || !loggedUser.userId) {
-    console.error("❌ No logged-in user found.");
+
     return;
   }
 
@@ -323,7 +320,7 @@ function renderFavoriteFlats() {
     flat.favorites.includes(loggedUser.userId)
   );
 
-  console.log("✅ Favorite flats:", favoriteFlats);
+
 
   renderFlatCards(favoriteFlats);
 }

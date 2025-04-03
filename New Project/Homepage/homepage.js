@@ -25,7 +25,7 @@ const reloadPage = logo.addEventListener("click", () => {
 function renderFlatCards(filteredFlats = null) {
   const cardContainer = document.getElementById("cardContainer");
   if (!cardContainer) {
-    console.error("No #cardContainer found in DOM.");
+
     return;
   }
 
@@ -85,7 +85,7 @@ function renderFlatCards(filteredFlats = null) {
 }
 
 function openFlatModal(flatId) {
-  console.log(`🔹 Opening modal for flat ID: ${flatId}`);
+
 
   const flats = JSON.parse(localStorage.getItem("flats")) || [];
   const users = JSON.parse(localStorage.getItem("users")) || [];
@@ -93,13 +93,13 @@ function openFlatModal(flatId) {
   const selectedFlat = flats.find((flat) => flat.id === flatId);
 
   if (!selectedFlat) {
-    console.error("❌ Flat not found.");
+
     return;
   }
 
   const existingModal = document.getElementById("flatModal");
   if (existingModal) {
-    console.log("🔹 Removing existing modal...");
+
     existingModal.remove();
   }
 
@@ -171,9 +171,9 @@ function openFlatModal(flatId) {
     }
   });
   document.querySelectorAll(".favorite-icon").forEach((button) => {
-    console.log(button);
+
     button.addEventListener("click", (event) => {
-      event.stopPropagation(); // Prevents event bubbling if inside another clickable element
+      event.stopPropagation(); 
       const flats = readFromLS("flats");
       toggleFavorite(flatId, button);
     });
@@ -242,7 +242,7 @@ function setupCardPagination(totalFlats) {
   const nextBtn = document.getElementById("nextBtn");
 
   if (!prevBtn || !nextBtn) {
-    console.error("Missing navigation arrow buttons in DOM.");
+
     return;
   }
 

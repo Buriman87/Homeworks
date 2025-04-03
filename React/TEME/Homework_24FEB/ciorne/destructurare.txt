@@ -1,0 +1,61 @@
+console.log("gigi")
+interface IUser {
+    name: string;
+    age: number;
+}
+
+interface ISettings {
+    theme: string;
+    notifications: boolean;
+}
+interface ILocation {
+
+    city: string;
+    country: {
+        region: string;
+        state: string;
+        timezone: {
+            zone1: string;
+            zone2: string;
+        }
+    }
+}
+interface IMyObjectInterface {
+    user: IUser,
+    settings: ISettings,
+    location?: ILocation,
+}
+const MyObj: IMyObjectInterface = {
+    "user": {
+        "name": "Alice",
+        "age": 28
+    },
+    "settings": {
+        "theme": "dark",
+        "notifications": true
+    },
+    "location": {
+        "city": "New York",
+        "country": {
+            region: "ala",
+            state: "georgia",
+            timezone: {
+                zone1: "UTC",
+                zone2: "UTC+2",
+
+            }
+        }
+    }
+}
+
+const {
+    location: {
+        country: {
+            timezone: {
+                zone2
+            } = {},
+        } = {},
+    } = {},
+} = MyObj;
+console.log(zone2)
+

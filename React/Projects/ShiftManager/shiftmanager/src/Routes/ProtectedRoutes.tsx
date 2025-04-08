@@ -1,18 +1,38 @@
-import { CircularProgress } from "@mui/material";
-import { User } from "firebase/auth";
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+import { User } from "firebase/auth";
+import ProtectedLayout from "./ProtectedLayout";
+
 
 interface IProtectedRoutesProps {
   user: User | null;
   isLoading: boolean;
+  logout: () => Promise<void>;
 }
+
 const ProtectedRoutes: React.FC<IProtectedRoutesProps> = (props) => {
-  const { user, isLoading } = props;
+  const { user, isLoading, logout } = props;
+
   if (isLoading) {
-    return <CircularProgress />;
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "5rem" }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
-  return user ? <Outlet /> : <Navigate to="/register" />;
+
+  if (!user) {
+    return <Navigate to="/register" replace />;
+  }
+
+  return (
+    <ProtectedLayout logout={logout}>
+      <Outlet />
+    </ProtectedLayout>
+  );
 };
 
 export default ProtectedRoutes;

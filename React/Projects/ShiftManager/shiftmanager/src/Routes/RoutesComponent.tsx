@@ -16,7 +16,15 @@ export const RoutesComponent: React.FC = (): JSX.Element => {
   return (
     <Router>
       <Routes>
-        <Route element={<ProtectedRoutes user={user} isLoading={isLoading} />}>
+        <Route
+          element={
+            <ProtectedRoutes
+              user={user}
+              isLoading={isLoading}
+              logout={logout}
+            />
+          }
+        >
           <Route path="/" element={<HomepageComponent logout={logout} />} />
           <Route path="/addnewshift" element={<AddNewShiftPageComponent />} />
           <Route path="/shifts" element={<ViewAllShiftsPageComponent />} />
@@ -25,6 +33,7 @@ export const RoutesComponent: React.FC = (): JSX.Element => {
           <Route path="/register" element={<RegisterPageComponent />} />
           <Route path="/login" element={<LoginPageComponent />} />
         </Route>
+
         <Route path="*" element={<NotFoundPageComponent />} />
       </Routes>
     </Router>

@@ -5,4 +5,5 @@ export interface IAuthContext {
   user: User | null;
   users?: IUser[];
   isLoading: boolean;
+  logout: () => Promise<void>;
 }

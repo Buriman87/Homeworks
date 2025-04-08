@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { IAuthContext } from "../Interfaces/IAuthContextInterface";
-import { User } from "firebase/auth";
+import { signOut, User } from "firebase/auth";
 import { auth } from "../../firebase";
 
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
@@ -17,6 +17,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const logout = async () => {
+    try {
+      setIsLoading(true);
+      await signOut(auth);
+      setUser(null);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -31,7 +42,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading }}>
+    <AuthContext.Provider value={{ user, isLoading, logout }}>
       {children}
     </AuthContext.Provider>
   );

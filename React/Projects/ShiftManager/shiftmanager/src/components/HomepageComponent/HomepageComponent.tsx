@@ -1,10 +1,13 @@
 import React from "react";
 import NavbarComponent from "../NavbarComponent/NavbarComponent";
 
-const HomepageComponent: React.FC = () => {
+interface IHomepageComponentProps {
+  logout: () => Promise<void>;
+}
+const HomepageComponent: React.FC<IHomepageComponentProps> = ({ logout }) => {
   return (
     <div>
-      <NavbarComponent />
+      <NavbarComponent logout={logout} />
     </div>
   );
 };

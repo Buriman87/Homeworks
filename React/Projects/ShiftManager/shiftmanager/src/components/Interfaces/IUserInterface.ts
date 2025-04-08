@@ -1,4 +1,5 @@
 export interface IUser {
+  username: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -8,4 +9,8 @@ export interface IUser {
   createdAt?: number;
   lastLoginAt?: number;
   id?: string;
+  isActive?: boolean;
+  forcePasswordChange?: boolean;
+  currentShift?: string;
+  phoneNumber: number;
 }

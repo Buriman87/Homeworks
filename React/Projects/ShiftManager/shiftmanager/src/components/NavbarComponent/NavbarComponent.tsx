@@ -14,14 +14,13 @@ import {
 import {
   ExpandLess,
   ExpandMore,
-  Inbox as InboxIcon,
-  Mail as MailIcon,
   Logout as LogoutIcon,
   AccountCircle,
   People,
   Assignment,
   Add,
   ManageAccounts,
+  History,
 } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./NavbarComponent.module.scss";
@@ -86,7 +85,13 @@ const NavbarComponent: React.FC<INavbarComponentProps> = ({ logout }) => {
   return (
     <div className={styles.NavBarContainer}>
       <div className={styles.Logo}>
-        <img className={styles.LogoImg} src={logo} alt="Logo" />
+        <img
+          className={styles.LogoImg}
+          src={logo}
+          alt="Logo"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        />
       </div>
 
       <Button onClick={() => setOpenDrawer(true)} className={styles.UserButton}>
@@ -117,7 +122,7 @@ const NavbarComponent: React.FC<INavbarComponentProps> = ({ logout }) => {
             </ListItemButton>
           </ListItem>
 
-          {/* Shifts Collapsible */}
+          {/* Shifts */}
           <ListItemButton onClick={() => setOpenShifts(!openShifts)}>
             <ListItemIcon>
               <Assignment />
@@ -151,7 +156,7 @@ const NavbarComponent: React.FC<INavbarComponentProps> = ({ logout }) => {
             </List>
           </Collapse>
 
-          {/* Users Collapsible */}
+          {/* Users */}
           <ListItemButton onClick={() => setOpenUsers(!openUsers)}>
             <ListItemIcon>
               <People />
@@ -166,6 +171,9 @@ const NavbarComponent: React.FC<INavbarComponentProps> = ({ logout }) => {
                 selected={location.pathname === "/users"}
                 onClick={() => handleNavigate("/users")}
               >
+                <ListItemIcon>
+                  <People />
+                </ListItemIcon>
                 <ListItemText primary="View Users" />
               </ListItemButton>
               <ListItemButton
@@ -173,7 +181,20 @@ const NavbarComponent: React.FC<INavbarComponentProps> = ({ logout }) => {
                 selected={location.pathname === "/adduser"}
                 onClick={() => handleNavigate("/adduser")}
               >
+                <ListItemIcon>
+                  <Add />
+                </ListItemIcon>
                 <ListItemText primary="Add User" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={location.pathname === "/viewlogs"}
+                onClick={() => handleNavigate("/viewlogs")}
+              >
+                <ListItemIcon>
+                  <History />
+                </ListItemIcon>
+                <ListItemText primary="View Logs" />
               </ListItemButton>
             </List>
           </Collapse>

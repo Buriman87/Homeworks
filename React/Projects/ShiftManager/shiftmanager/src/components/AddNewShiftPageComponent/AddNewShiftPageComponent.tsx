@@ -7,13 +7,7 @@ import {
   Typography,
   CircularProgress,
   Alert,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-  OutlinedInput,
-  Checkbox,
-  ListItemText,
+  Autocomplete,
 } from "@mui/material";
 import {
   DatePicker,
@@ -23,14 +17,20 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { v4 as uuidv4 } from "uuid";
-import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import { INewShift } from "../Interfaces/IAddNewShiftInterface";
 import { useNavigate } from "react-router-dom";
 
-interface IUser {
+interface IUserOption {
   id: string;
-  username: string;
+  label: string;
 }
 
 const AddNewShiftPageComponent: React.FC = () => {
@@ -42,21 +42,22 @@ const AddNewShiftPageComponent: React.FC = () => {
   const [isNextDay, setIsNextDay] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-  const [selectedModerators, setSelectedModerators] = useState<string[]>([]);
+  const [usersList, setUsersList] = useState<IUserOption[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<IUserOption[]>([]);
+  const [selectedModerators, setSelectedModerators] = useState<IUserOption[]>(
+    []
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const querySnapshot = await getDocs(collection(db, "users"));
-      const fetchedUsers: IUser[] = querySnapshot.docs.map((doc) => ({
+      const snapshot = await getDocs(collection(db, "users"));
+      const list = snapshot.docs.map((doc) => ({
         id: doc.id,
-        username: doc.data().username || doc.data().email || "Unnamed",
+        label: `${doc.data().lastName} ${doc.data().firstName}`,
       }));
-      setUsers(fetchedUsers);
+      setUsersList(list);
     };
-
     fetchUsers();
   }, []);
 
@@ -104,14 +105,24 @@ const AddNewShiftPageComponent: React.FC = () => {
       checkOut: checkOutDate?.format("YYYY-MM-DDTHH:mm") || "",
       duration,
       salary: Number(salary),
-      moderators: selectedModerators,
-      users: selectedUsers,
+      moderators: selectedModerators.map((m) => m.id),
+      users: selectedUsers.map((u) => u.id),
     };
 
     try {
       await setDoc(doc(db, "Shifts", id), newShift);
+
+      await Promise.all(
+        selectedUsers.map((user) =>
+          updateDoc(doc(db, "users", user.id), {
+            currentShift: id,
+          })
+        )
+      );
+
       setSuccess("Shift successfully added!");
-      setTimeout(() => navigate("/"), 1000);
+      setSalary("");
+      navigate("/");
     } catch (err) {
       console.error("Failed to add shift:", err);
       setSuccess("Something went wrong.");
@@ -121,7 +132,7 @@ const AddNewShiftPageComponent: React.FC = () => {
   };
 
   return (
-    <Paper elevation={3} sx={{ maxWidth: 500, mx: "auto", mt: 6, p: 4 }}>
+    <Paper elevation={3} sx={{ maxWidth: 600, mx: "auto", mt: 6, p: 4 }}>
       <Typography variant="h5" align="center" gutterBottom>
         Add New Shift
       </Typography>
@@ -133,128 +144,71 @@ const AddNewShiftPageComponent: React.FC = () => {
       )}
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{ "& .MuiTextField-root": { m: 1, width: "100%" } }}
-          noValidate
-          autoComplete="off"
-        >
+        <Box component="form" onSubmit={handleSubmit}>
           <DatePicker
             label="Date"
             value={date}
-            onChange={(newValue) => setDate(newValue)}
+            onChange={setDate}
+            sx={{ mb: 2, width: "100%" }}
           />
-
           <TimePicker
-            label="Check-In Time"
+            label="Check-In"
             value={checkIn}
-            onChange={(newValue) => setCheckIn(newValue)}
+            onChange={setCheckIn}
+            sx={{ mb: 2, width: "100%" }}
           />
-
           <TimePicker
-            label="Check-Out Time"
+            label="Check-Out"
             value={checkOut}
-            onChange={(newValue) => setCheckOut(newValue)}
+            onChange={setCheckOut}
+            sx={{ mb: 2, width: "100%" }}
           />
-
           <TextField
-            required
-            label="Salary Amount ($)"
+            label="Salary"
             type="number"
+            fullWidth
+            sx={{ mb: 2 }}
             value={salary}
             onChange={(e) => setSalary(e.target.value)}
           />
-
-          {duration && (
-            <Typography
-              variant="body2"
-              sx={{ mt: 1, ml: 1, color: "text.secondary" }}
-            >
-              Duration: <strong>{duration}</strong>
-              {isNextDay && (
-                <Typography variant="caption" sx={{ color: "orange", ml: 1 }}>
-                  (Check-out is on the next day)
-                </Typography>
-              )}
-            </Typography>
-          )}
-
-          <FormControl sx={{ m: 1, width: "100%" }}>
-            <InputLabel id="user-select-label">Select Users</InputLabel>
-            <Select
-              multiple
-              labelId="user-select-label"
-              value={selectedUsers}
-              onChange={(e) => setSelectedUsers(e.target.value as string[])}
-              input={<OutlinedInput label="Select Users" />}
-              renderValue={(selected) =>
-                users
-                  .filter((u) => selected.includes(u.id))
-                  .map((u) => u.username)
-                  .join(", ")
-              }
-            >
-              {users.map((user) => (
-                <MenuItem key={user.id} value={user.id}>
-                  <Checkbox checked={selectedUsers.indexOf(user.id) > -1} />
-                  <ListItemText primary={user.username} />
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl sx={{ m: 1, width: "100%" }}>
-            <InputLabel id="moderator-select-label">
-              Select Moderators
-            </InputLabel>
-            <Select
-              multiple
-              labelId="moderator-select-label"
-              value={selectedModerators}
-              onChange={(e) =>
-                setSelectedModerators(e.target.value as string[])
-              }
-              input={<OutlinedInput label="Select Moderators" />}
-              renderValue={(selected) =>
-                users
-                  .filter((u) => selected.includes(u.id))
-                  .map((u) => u.username)
-                  .join(", ")
-              }
-            >
-              {users.map((user) => (
-                <MenuItem key={user.id} value={user.id}>
-                  <Checkbox
-                    checked={selectedModerators.indexOf(user.id) > -1}
-                  />
-                  <ListItemText primary={user.username} />
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <Box mt={3} textAlign="center">
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              disabled={loading}
-              startIcon={loading ? <CircularProgress size={20} /> : null}
-            >
-              {loading ? "Saving..." : "Save Shift"}
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              fullWidth
-              sx={{ mt: 2 }}
-              onClick={() => navigate("/")}
-            >
-              Back to Home
-            </Button>
-          </Box>
+          <Autocomplete
+            multiple
+            options={usersList}
+            getOptionLabel={(option) => option.label}
+            value={selectedModerators}
+            onChange={(_, value) => setSelectedModerators(value)}
+            renderInput={(params) => (
+              <TextField {...params} label="Moderators" sx={{ mb: 2 }} />
+            )}
+          />
+          <Autocomplete
+            multiple
+            options={usersList}
+            getOptionLabel={(option) => option.label}
+            value={selectedUsers}
+            onChange={(_, value) => setSelectedUsers(value)}
+            renderInput={(params) => (
+              <TextField {...params} label="Users" sx={{ mb: 2 }} />
+            )}
+          />
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            Duration: <strong>{duration}</strong>
+            {isNextDay && (
+              <Typography variant="caption" sx={{ color: "orange", ml: 1 }}>
+                (Check-out is on the next day)
+              </Typography>
+            )}
+          </Typography>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={loading}
+            startIcon={loading ? <CircularProgress size={20} /> : null}
+          >
+            {loading ? "Saving..." : "Save Shift"}
+          </Button>
         </Box>
       </LocalizationProvider>
     </Paper>

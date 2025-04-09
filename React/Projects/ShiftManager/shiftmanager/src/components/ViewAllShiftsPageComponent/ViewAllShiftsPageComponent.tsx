@@ -47,9 +47,7 @@ const ViewAllShiftsPageComponent: React.FC = () => {
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
-    "success"
-  );
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
 
   const navigate = useNavigate();
 
@@ -60,9 +58,7 @@ const ViewAllShiftsPageComponent: React.FC = () => {
         const userMapData: IUserMap = {};
         usersSnapshot.forEach((doc) => {
           const data = doc.data();
-          userMapData[doc.id] = `${data.lastName || ""} ${
-            data.firstName || ""
-          }`.trim();
+          userMapData[doc.id] = `${data.lastName || ""} ${data.firstName || ""}`.trim();
         });
         setUserMap(userMapData);
 
@@ -128,7 +124,6 @@ const ViewAllShiftsPageComponent: React.FC = () => {
   };
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 220 },
     { field: "date", headerName: "Date", width: 120 },
     { field: "checkIn", headerName: "Check-In", width: 140 },
     { field: "checkOut", headerName: "Check-Out", width: 140 },
@@ -180,39 +175,22 @@ const ViewAllShiftsPageComponent: React.FC = () => {
           loading={loading}
           pageSizeOptions={[5, 10]}
           onRowClick={handleRowClick}
-          initialState={{
-            pagination: { paginationModel: { page: 0, pageSize: 5 } },
-          }}
+          initialState={{ pagination: { paginationModel: { page: 0, pageSize: 5 } } }}
           sx={{ border: 0, cursor: "pointer" }}
         />
       </Paper>
 
-      {/* Details Modal */}
-      <Dialog
-        open={!!selectedShift}
-        onClose={handleCloseModal}
-        maxWidth="sm"
-        fullWidth
-      >
+      {/* Shift Details Modal */}
+      <Dialog open={!!selectedShift} onClose={handleCloseModal} maxWidth="sm" fullWidth>
         <DialogTitle>Shift Details</DialogTitle>
         <DialogContent dividers>
           {selectedShift && (
             <>
-              <Typography>
-                <strong>Date:</strong> {selectedShift.date}
-              </Typography>
-              <Typography>
-                <strong>Check-In:</strong> {selectedShift.checkIn}
-              </Typography>
-              <Typography>
-                <strong>Check-Out:</strong> {selectedShift.checkOut}
-              </Typography>
-              <Typography>
-                <strong>Duration:</strong> {selectedShift.duration}
-              </Typography>
-              <Typography>
-                <strong>Salary:</strong> ${selectedShift.salary}
-              </Typography>
+              <Typography><strong>Date:</strong> {selectedShift.date}</Typography>
+              <Typography><strong>Check-In:</strong> {selectedShift.checkIn}</Typography>
+              <Typography><strong>Check-Out:</strong> {selectedShift.checkOut}</Typography>
+              <Typography><strong>Duration:</strong> {selectedShift.duration}</Typography>
+              <Typography><strong>Salary:</strong> ${selectedShift.salary}</Typography>
 
               <Divider sx={{ my: 2 }} />
 
@@ -242,22 +220,17 @@ const ViewAllShiftsPageComponent: React.FC = () => {
           <Button onClick={handleEdit} variant="contained" color="primary">
             Edit
           </Button>
-          <Button
-            onClick={() => setConfirmOpen(true)}
-            variant="outlined"
-            color="error"
-          >
+          <Button onClick={() => setConfirmOpen(true)} variant="outlined" color="error">
             Delete
           </Button>
         </DialogActions>
       </Dialog>
 
-      {/* Confirmation Dialog */}
+      {/* Confirmation Modal */}
       <Dialog open={confirmOpen} onClose={handleCloseConfirm}>
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
-          Are you sure you want to delete this shift? This action is
-          irreversible.
+          Are you sure you want to delete this shift? This action is irreversible.
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseConfirm}>Cancel</Button>

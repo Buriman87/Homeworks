@@ -9,11 +9,12 @@ import {
   ListItemText,
   CircularProgress,
   Avatar,
-  Collapse,
 } from "@mui/material";
 import {
   ExpandLess,
   ExpandMore,
+  Inbox as InboxIcon,
+  Mail as MailIcon,
   Logout as LogoutIcon,
   AccountCircle,
   People,
@@ -27,6 +28,7 @@ import styles from "./NavbarComponent.module.scss";
 import { auth, db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import logo from "../../assets/react.svg";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface INavbarComponentProps {
   logout: () => Promise<void>;
@@ -109,7 +111,6 @@ const NavbarComponent: React.FC<INavbarComponentProps> = ({ logout }) => {
 
       <Drawer anchor="right" open={openDrawer} onClose={handleClose}>
         <List sx={{ width: 280 }}>
-          {/* Profile */}
           <ListItem disablePadding>
             <ListItemButton
               selected={location.pathname.includes("/myprofile")}
@@ -122,7 +123,6 @@ const NavbarComponent: React.FC<INavbarComponentProps> = ({ logout }) => {
             </ListItemButton>
           </ListItem>
 
-          {/* Shifts */}
           <ListItemButton onClick={() => setOpenShifts(!openShifts)}>
             <ListItemIcon>
               <Assignment />
@@ -130,33 +130,61 @@ const NavbarComponent: React.FC<INavbarComponentProps> = ({ logout }) => {
             <ListItemText primary="Shifts" />
             {openShifts ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-          <Collapse in={openShifts} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton
-                sx={{ pl: 4 }}
-                selected={location.pathname === "/shifts"}
-                onClick={() => handleNavigate("/shifts")}
-              >
-                <ListItemText primary="View Shifts" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ pl: 4 }}
-                selected={location.pathname === "/addnewshift"}
-                onClick={() => handleNavigate("/addnewshift")}
-              >
-                <ListItemText primary="Add Shift" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ pl: 4 }}
-                selected={location.pathname === "/manageshifts"}
-                onClick={() => handleNavigate("/manageshifts")}
-              >
-                <ListItemText primary="Manage Shifts" />
-              </ListItemButton>
-            </List>
-          </Collapse>
 
-          {/* Users */}
+          <AnimatePresence initial={false}>
+            {openShifts && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <List component="div" disablePadding>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    selected={location.pathname === "/shifts"}
+                    onClick={() => handleNavigate("/shifts")}
+                  >
+                    <ListItemIcon>
+                      <Assignment />
+                    </ListItemIcon>
+                    <ListItemText primary="View Shifts" />
+                  </ListItemButton>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    selected={location.pathname === "/addnewshift"}
+                    onClick={() => handleNavigate("/addnewshift")}
+                  >
+                    <ListItemIcon>
+                      <Add />
+                    </ListItemIcon>
+                    <ListItemText primary="Add Shift" />
+                  </ListItemButton>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    selected={location.pathname === "/manageshifts"}
+                    onClick={() => handleNavigate("/manageshifts")}
+                  >
+                    <ListItemIcon>
+                      <ManageAccounts />
+                    </ListItemIcon>
+                    <ListItemText primary="Manage Shifts" />
+                  </ListItemButton>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    selected={location.pathname === "/my-shift"}
+                    onClick={() => handleNavigate("/my-shift")}
+                  >
+                    <ListItemIcon>
+                      <AccountCircle />
+                    </ListItemIcon>
+                    <ListItemText primary="My Shifts" />
+                  </ListItemButton>
+                </List>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <ListItemButton onClick={() => setOpenUsers(!openUsers)}>
             <ListItemIcon>
               <People />
@@ -164,42 +192,51 @@ const NavbarComponent: React.FC<INavbarComponentProps> = ({ logout }) => {
             <ListItemText primary="Users" />
             {openUsers ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-          <Collapse in={openUsers} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton
-                sx={{ pl: 4 }}
-                selected={location.pathname === "/users"}
-                onClick={() => handleNavigate("/users")}
-              >
-                <ListItemIcon>
-                  <People />
-                </ListItemIcon>
-                <ListItemText primary="View Users" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ pl: 4 }}
-                selected={location.pathname === "/adduser"}
-                onClick={() => handleNavigate("/adduser")}
-              >
-                <ListItemIcon>
-                  <Add />
-                </ListItemIcon>
-                <ListItemText primary="Add User" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ pl: 4 }}
-                selected={location.pathname === "/viewlogs"}
-                onClick={() => handleNavigate("/viewlogs")}
-              >
-                <ListItemIcon>
-                  <History />
-                </ListItemIcon>
-                <ListItemText primary="View Logs" />
-              </ListItemButton>
-            </List>
-          </Collapse>
 
-          {/* Logout */}
+          <AnimatePresence initial={false}>
+            {openUsers && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <List component="div" disablePadding>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    selected={location.pathname === "/users"}
+                    onClick={() => handleNavigate("/users")}
+                  >
+                    <ListItemIcon>
+                      <People />
+                    </ListItemIcon>
+                    <ListItemText primary="View Users" />
+                  </ListItemButton>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    selected={location.pathname === "/adduser"}
+                    onClick={() => handleNavigate("/adduser")}
+                  >
+                    <ListItemIcon>
+                      <Add />
+                    </ListItemIcon>
+                    <ListItemText primary="Add User" />
+                  </ListItemButton>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    selected={location.pathname === "/viewlogs"}
+                    onClick={() => handleNavigate("/viewlogs")}
+                  >
+                    <ListItemIcon>
+                      <History />
+                    </ListItemIcon>
+                    <ListItemText primary="View Logs" />
+                  </ListItemButton>
+                </List>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <ListItem disablePadding>
             <ListItemButton onClick={handleLogout} disabled={loggingOut}>
               <ListItemIcon>

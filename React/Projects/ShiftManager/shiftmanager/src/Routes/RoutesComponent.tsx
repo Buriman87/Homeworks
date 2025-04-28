@@ -13,6 +13,7 @@ import EditShiftPageComponent from "../components/EditShiftPageComponent/EditShi
 import ViewAllUsersPageComponent from "../components/ViewAllUsersPageComponent/ViewAllUsersPageComponent";
 import MyProfilePageComponent from "../components/MyProfilePageComponent/MyProfilePageComponent";
 import ViewLogsPageComponent from "../components/ViewLogsPageComponent/ViewLogsPageComponent";
+import MyShiftPageComponent from "../components/MyShiftPageComponent/MyShiftPageComonent";
 
 export const RoutesComponent: React.FC = (): JSX.Element => {
   const { user, isLoading, logout } = useAuth();
@@ -34,7 +35,11 @@ export const RoutesComponent: React.FC = (): JSX.Element => {
           <Route path="/shifts" element={<ViewAllShiftsPageComponent />} />
           <Route path="/editshift/:id" element={<EditShiftPageComponent />} />
           <Route path="/users" element={<ViewAllUsersPageComponent />} />
-          <Route path="/myprofile" element={<MyProfilePageComponent />} />
+          <Route path="/my-shift" element={<MyShiftPageComponent />} />
+          <Route
+            path="/myprofile/:username"
+            element={<MyProfilePageComponent />}
+          />
           <Route path="/viewlogs" element={<ViewLogsPageComponent />} />
         </Route>
         <Route element={<PublicRoutes user={user} isLoading={isLoading} />}>

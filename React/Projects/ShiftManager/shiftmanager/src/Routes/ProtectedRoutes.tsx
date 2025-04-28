@@ -4,7 +4,6 @@ import { CircularProgress } from "@mui/material";
 import { User } from "firebase/auth";
 import ProtectedLayout from "./ProtectedLayout";
 
-
 interface IProtectedRoutesProps {
   user: User | null;
   isLoading: boolean;
@@ -25,7 +24,7 @@ const ProtectedRoutes: React.FC<IProtectedRoutesProps> = (props) => {
   }
 
   if (!user) {
-    return <Navigate to="/register" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return (

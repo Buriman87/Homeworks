@@ -30,7 +30,8 @@ interface ShiftRow {
   checkIn: string;
   checkOut: string;
   duration: string;
-  salary: number;
+  estimatedSalary: number;
+  actualSalary?: number;
   moderators: string[];
   users: string[];
 }
@@ -47,7 +48,9 @@ const ViewAllShiftsPageComponent: React.FC = () => {
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
+    "success"
+  );
 
   const navigate = useNavigate();
 
@@ -58,7 +61,9 @@ const ViewAllShiftsPageComponent: React.FC = () => {
         const userMapData: IUserMap = {};
         usersSnapshot.forEach((doc) => {
           const data = doc.data();
-          userMapData[doc.id] = `${data.lastName || ""} ${data.firstName || ""}`.trim();
+          userMapData[doc.id] = `${data.lastName || ""} ${
+            data.firstName || ""
+          }`.trim();
         });
         setUserMap(userMapData);
 
@@ -71,7 +76,8 @@ const ViewAllShiftsPageComponent: React.FC = () => {
             checkIn: data.checkIn,
             checkOut: data.checkOut,
             duration: data.duration,
-            salary: data.salary,
+            estimatedSalary: data.estimatedSalary || 0,
+            actualSalary: data.actualSalary || 0,
             moderators: data.moderators || [],
             users: data.users || [],
           };
@@ -129,10 +135,16 @@ const ViewAllShiftsPageComponent: React.FC = () => {
     { field: "checkOut", headerName: "Check-Out", width: 140 },
     { field: "duration", headerName: "Duration", width: 100 },
     {
-      field: "salary",
-      headerName: "Salary ($)",
+      field: "estimatedSalary",
+      headerName: "Estimated Salary ($)",
       type: "number",
-      width: 110,
+      width: 160,
+    },
+    {
+      field: "actualSalary",
+      headerName: "Actual Salary ($)",
+      type: "number",
+      width: 160,
     },
     {
       field: "moderators",
@@ -158,7 +170,10 @@ const ViewAllShiftsPageComponent: React.FC = () => {
         <Button
           size="small"
           variant="outlined"
-          onClick={() => setSelectedShift(params.row)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setSelectedShift(params.row);
+          }}
         >
           Details
         </Button>
@@ -175,22 +190,44 @@ const ViewAllShiftsPageComponent: React.FC = () => {
           loading={loading}
           pageSizeOptions={[5, 10]}
           onRowClick={handleRowClick}
-          initialState={{ pagination: { paginationModel: { page: 0, pageSize: 5 } } }}
+          initialState={{
+            pagination: { paginationModel: { page: 0, pageSize: 5 } },
+          }}
           sx={{ border: 0, cursor: "pointer" }}
         />
       </Paper>
 
       {/* Shift Details Modal */}
-      <Dialog open={!!selectedShift} onClose={handleCloseModal} maxWidth="sm" fullWidth>
+      <Dialog
+        open={!!selectedShift}
+        onClose={handleCloseModal}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Shift Details</DialogTitle>
         <DialogContent dividers>
           {selectedShift && (
             <>
-              <Typography><strong>Date:</strong> {selectedShift.date}</Typography>
-              <Typography><strong>Check-In:</strong> {selectedShift.checkIn}</Typography>
-              <Typography><strong>Check-Out:</strong> {selectedShift.checkOut}</Typography>
-              <Typography><strong>Duration:</strong> {selectedShift.duration}</Typography>
-              <Typography><strong>Salary:</strong> ${selectedShift.salary}</Typography>
+              <Typography>
+                <strong>Date:</strong> {selectedShift.date}
+              </Typography>
+              <Typography>
+                <strong>Check-In:</strong> {selectedShift.checkIn}
+              </Typography>
+              <Typography>
+                <strong>Check-Out:</strong> {selectedShift.checkOut}
+              </Typography>
+              <Typography>
+                <strong>Duration:</strong> {selectedShift.duration}
+              </Typography>
+              <Typography>
+                <strong>Estimated Salary:</strong> $
+                {selectedShift.estimatedSalary}
+              </Typography>
+              <Typography>
+                <strong>Actual Salary:</strong> $
+                {selectedShift.actualSalary || 0}
+              </Typography>
 
               <Divider sx={{ my: 2 }} />
 
@@ -220,7 +257,11 @@ const ViewAllShiftsPageComponent: React.FC = () => {
           <Button onClick={handleEdit} variant="contained" color="primary">
             Edit
           </Button>
-          <Button onClick={() => setConfirmOpen(true)} variant="outlined" color="error">
+          <Button
+            onClick={() => setConfirmOpen(true)}
+            variant="outlined"
+            color="error"
+          >
             Delete
           </Button>
         </DialogActions>
@@ -230,7 +271,8 @@ const ViewAllShiftsPageComponent: React.FC = () => {
       <Dialog open={confirmOpen} onClose={handleCloseConfirm}>
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
-          Are you sure you want to delete this shift? This action is irreversible.
+          Are you sure you want to delete this shift? This action is
+          irreversible.
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseConfirm}>Cancel</Button>

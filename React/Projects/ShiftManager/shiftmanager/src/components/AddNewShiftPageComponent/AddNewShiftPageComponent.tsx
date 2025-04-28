@@ -8,6 +8,11 @@ import {
   CircularProgress,
   Alert,
   Autocomplete,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  ListItemIcon,
 } from "@mui/material";
 import {
   DatePicker,
@@ -25,23 +30,29 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-import { INewShift } from "../Interfaces/IAddNewShiftInterface";
 import { useNavigate } from "react-router-dom";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 interface IUserOption {
   id: string;
   label: string;
+  role: string;
 }
 
 const AddNewShiftPageComponent: React.FC = () => {
+  const [name, setName] = useState<"daytime" | "nighttime" | "">("");
   const [date, setDate] = useState<Dayjs | null>(dayjs());
   const [checkIn, setCheckIn] = useState<Dayjs | null>(dayjs());
   const [checkOut, setCheckOut] = useState<Dayjs | null>(dayjs());
-  const [salary, setSalary] = useState("");
+  const [salaryPerHour, setSalaryPerHour] = useState("");
+  const [calculatedSalary, setCalculatedSalary] = useState(0);
   const [duration, setDuration] = useState<string>("");
   const [isNextDay, setIsNextDay] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
   const [usersList, setUsersList] = useState<IUserOption[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<IUserOption[]>([]);
   const [selectedModerators, setSelectedModerators] = useState<IUserOption[]>(
@@ -55,6 +66,7 @@ const AddNewShiftPageComponent: React.FC = () => {
       const list = snapshot.docs.map((doc) => ({
         id: doc.id,
         label: `${doc.data().lastName} ${doc.data().firstName}`,
+        role: doc.data().role,
       }));
       setUsersList(list);
     };
@@ -77,36 +89,41 @@ const AddNewShiftPageComponent: React.FC = () => {
       const hours = Math.floor(diffMinutes / 60);
       const minutes = diffMinutes % 60;
       setDuration(`${hours}h ${minutes}m`);
+
+      const salary = parseFloat(salaryPerHour || "0");
+      const total = (diffMinutes / 60) * salary * selectedUsers.length;
+      setCalculatedSalary(Math.round(total * 100) / 100);
     }
-  }, [checkIn, checkOut, date]);
+  }, [checkIn, checkOut, date, salaryPerHour, selectedUsers]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setSuccess("");
+    setError("");
 
     const id = uuidv4();
-
     const checkInDate = date
       ?.hour(checkIn?.hour() || 0)
       .minute(checkIn?.minute() || 0);
     let checkOutDate = date
       ?.hour(checkOut?.hour() || 0)
       .minute(checkOut?.minute() || 0);
-
     if (checkOutDate && checkInDate && checkOutDate.isBefore(checkInDate)) {
       checkOutDate = checkOutDate.add(1, "day");
     }
 
-    const newShift: INewShift = {
+    const newShift = {
       id,
+      name,
       date: date?.format("YYYY-MM-DD") || "",
       checkIn: checkInDate?.format("YYYY-MM-DDTHH:mm") || "",
       checkOut: checkOutDate?.format("YYYY-MM-DDTHH:mm") || "",
       duration,
-      salary: Number(salary),
+      estimatedSalary: calculatedSalary,
       moderators: selectedModerators.map((m) => m.id),
       users: selectedUsers.map((u) => u.id),
+      confirmations: [],
     };
 
     try {
@@ -121,13 +138,30 @@ const AddNewShiftPageComponent: React.FC = () => {
       );
 
       setSuccess("Shift successfully added!");
-      setSalary("");
-      navigate("/");
+      setTimeout(() => navigate("/"), 1000);
     } catch (err) {
       console.error("Failed to add shift:", err);
-      setSuccess("Something went wrong.");
+      setError("Something went wrong while saving the shift.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const eligibleModerators = usersList.filter((u) =>
+    ["owner", "moderator"].includes(u.role)
+  );
+  const eligibleUsers = usersList.filter((u) =>
+    ["owner", "moderator", "user"].includes(u.role)
+  );
+
+  const getIcon = (role: string) => {
+    switch (role) {
+      case "owner":
+        return <AdminPanelSettingsIcon fontSize="small" />;
+      case "moderator":
+        return <SupervisorAccountIcon fontSize="small" />;
+      default:
+        return <EmojiPeopleIcon fontSize="small" />;
     }
   };
 
@@ -142,9 +176,30 @@ const AddNewShiftPageComponent: React.FC = () => {
           {success}
         </Alert>
       )}
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Box component="form" onSubmit={handleSubmit}>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <InputLabel id="shift-label">Shift Name</InputLabel>
+            <Select
+              labelId="shift-label"
+              value={name}
+              label="Shift Name"
+              onChange={(e) =>
+                setName(e.target.value as "daytime" | "nighttime")
+              }
+              required
+            >
+              <MenuItem value="daytime">Daytime</MenuItem>
+              <MenuItem value="nighttime">Nighttime</MenuItem>
+            </Select>
+          </FormControl>
+
           <DatePicker
             label="Date"
             value={date}
@@ -164,33 +219,14 @@ const AddNewShiftPageComponent: React.FC = () => {
             sx={{ mb: 2, width: "100%" }}
           />
           <TextField
-            label="Salary"
+            label="Salary per Hour"
             type="number"
             fullWidth
             sx={{ mb: 2 }}
-            value={salary}
-            onChange={(e) => setSalary(e.target.value)}
+            value={salaryPerHour}
+            onChange={(e) => setSalaryPerHour(e.target.value)}
           />
-          <Autocomplete
-            multiple
-            options={usersList}
-            getOptionLabel={(option) => option.label}
-            value={selectedModerators}
-            onChange={(_, value) => setSelectedModerators(value)}
-            renderInput={(params) => (
-              <TextField {...params} label="Moderators" sx={{ mb: 2 }} />
-            )}
-          />
-          <Autocomplete
-            multiple
-            options={usersList}
-            getOptionLabel={(option) => option.label}
-            value={selectedUsers}
-            onChange={(_, value) => setSelectedUsers(value)}
-            renderInput={(params) => (
-              <TextField {...params} label="Users" sx={{ mb: 2 }} />
-            )}
-          />
+
           <Typography variant="body2" sx={{ mb: 2 }}>
             Duration: <strong>{duration}</strong>
             {isNextDay && (
@@ -199,6 +235,47 @@ const AddNewShiftPageComponent: React.FC = () => {
               </Typography>
             )}
           </Typography>
+
+          <Typography variant="subtitle2" sx={{ mb: 2 }}>
+            Estimated Cost with Salary: <strong>${calculatedSalary}</strong>
+          </Typography>
+
+          <Autocomplete
+            multiple
+            options={eligibleModerators}
+            groupBy={(option) => option.role}
+            getOptionLabel={(option) => option.label}
+            value={selectedModerators}
+            onChange={(_, value) => setSelectedModerators(value)}
+            renderOption={(props, option) => (
+              <li {...props}>
+                <ListItemIcon>{getIcon(option.role)}</ListItemIcon>
+                {option.label}
+              </li>
+            )}
+            renderInput={(params) => (
+              <TextField {...params} label="Moderators" sx={{ mb: 2 }} />
+            )}
+          />
+
+          <Autocomplete
+            multiple
+            options={eligibleUsers}
+            groupBy={(option) => option.role}
+            getOptionLabel={(option) => option.label}
+            value={selectedUsers}
+            onChange={(_, value) => setSelectedUsers(value)}
+            renderOption={(props, option) => (
+              <li {...props}>
+                <ListItemIcon>{getIcon(option.role)}</ListItemIcon>
+                {option.label}
+              </li>
+            )}
+            renderInput={(params) => (
+              <TextField {...params} label="Users" sx={{ mb: 2 }} />
+            )}
+          />
+
           <Button
             type="submit"
             variant="contained"
